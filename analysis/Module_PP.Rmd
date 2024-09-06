@@ -1,0 +1,213 @@
+---
+title: "Module 2: Data Pre-Proccessing"
+author: "Stefano Cacciatore"
+output: 
+  html_document:
+  toc: true
+  toc_depth: 2
+  theme: united
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+---
+# Data Pre-Proccessing
+
+```{r,message=FALSE}
+#install.packages("Hmisc")
+library(Hmisc)
+library(dplyr)
+library(ggplot2)
+data("airquality")
+data("mtcars")
+```
+
+## Step 1: Data Collection
+
+Firstly, in order to conduct your analysis you need to have your data.
+
+The source of data depends on your research question and project requirements.
+
+You need to ensure that the data you obtain is of high-quality and of relevance to your problem.
+
+## Step 2: Data Cleaning
+
+#### a. Isolate and deal with **missing values**:
+
+There are multiple methods for dealing with missing data.
+
+If the missing values are random within your data set and don't seem to follow a pattern (i.e., there seem to be certain columns with high missingness when compared with others), one could replace these missing values with the mean or median of the column.
+
+In most cases, rows with high missingness could introduce bias. Therefore, it would be more accurate to remove these samples to avoid biasing your analysis.
+
+```{r}
+# For the below we will be using the dataset: "airquality" as this data has missing values to remove.
+
+# Check for missing values
+missing_values <- sapply(airquality, function(x) sum(is.na(x)))
+
+# Print the count of missing values in each column
+print(missing_values)
+```
+
+```{r}
+# Create a copy of the dataset for cleaning
+airquality_clean <- airquality
+
+# Calculate the median for each column (ignoring NA values)
+medians <- sapply(airquality_clean, function(x) median(x, na.rm = TRUE))
+
+# Replace NA values with the corresponding column medians
+for (col in names(airquality_clean)) {
+  airquality_clean[is.na(airquality_clean[[col]]), col] <- medians[col]
+}
+
+```
+
+```{r}
+# Alternatively, remove rows with any missing values (if applicable)
+airquality_clean_2 <- na.omit(airquality)
+
+# Now we check for cleaned data missing values:
+missing_values <- sapply(airquality_clean, function(x) sum(is.na(x)))
+
+missing_values_2 <- sapply(airquality_clean_2, function(x) sum(is.na(x)))
+
+cat("The number of missing values from 1st dataset:", sum(missing_values),  
+    "and from the 2nd dataset:", sum(missing_values_2), "\n")
+```
+
+#### b. Look for **outliers** and inconsistencies within your data
+
+Outliers in a dataset are values that deviate from the rest of your data and if included could skew your analysis and decrease the accuracy of your analysis.
+
+One can identify outliers using `z-score normalisation` to calculate how many SD's your value is from the mean (i.e., evaluates how unsual a data point is).
+
+```{r}
+# Calculate z-scores for each feature
+z_scores <- scale(airquality_clean_2)
+
+# Identify outliers using a z-score threshold (e.g., 3 standard deviations)
+outlier_threshold <- 2
+outliers <- apply(z_scores, 2, function(x) sum(abs(x) > outlier_threshold))
+
+# Print the number of outliers in each column
+print(outliers)
+```
+
+Once you have identified outliers you can either remove them or use a cut-off threshold to only exclude values above/below a certain score.
+
+```{r}
+# Remove outliers based on the threshold
+# Keep rows where all feature z-scores are within the threshold
+airquality_no_outliers <- airquality_clean_2[apply(z_scores, 1, function(x) all(abs(x) <= outlier_threshold)), ]
+
+# Recalculate z-scores for the dataset without outliers
+z_scores_no_outliers <- scale(airquality_no_outliers)
+
+# Identify remaining outliers
+outliers_no_outliers <- apply(z_scores_no_outliers, 2, function(x) sum(abs(x) > outlier_threshold))
+
+# Print the number of outliers in each column after removal
+print(outliers_no_outliers)
+```
+
+## Step 3: Data Transformation
+
+#### Variables might have different units (cm/m/km) and therefore would have different scales and distributions. This introduces unnecessary dificulties for your algorithm.
+
+##### **MIN-MAX NORMALISATION**
+
+-   Applying min-max normalization will define the values within a fixed range, commonly [0, 1].
+
+-   Typically used when you want to ensure all features are within the same range for certain machine learning algorithms (like neural networks) which are sensitive to the magnitude of the input value.
+
+```{r}
+data("mtcars")
+
+# Min-max normalize the mpg variable
+mtcars$mpg_mm <- scale(mtcars$mpg, 
+                       center = min(mtcars$mpg), 
+                       scale = max(mtcars$mpg) - min(mtcars$mpg))
+
+# Now we can check what minimum and maximum of the normalized mpg variable is:
+cat("The minimum of the normalized mpg variable is:", min(mtcars$mpg_mm),  
+    "and the maximum is:", max(mtcars$mpg_mm), "\n")
+```
+
+#### Large scale variables (generally) lead to large coefficients and could result in unstable and incorrect models. Therefore our data needs to be `standardized` and `re-scaled` in these scenarios.
+
+##### **Z-SCORE NORMALISATION**
+
+-   Standardizes the data such that the mean of the values becomes 0 and the standard deviation becomes 1.
+
+-   There is no fixed range after standardization and the values are rescaled relative to their SD
+
+```{r}
+data("mtcars")
+
+# Standardize the 'mpg' feature manually
+mpg_standardized <- (mtcars$mpg - mean(mtcars$mpg)) / sd(mtcars$mpg)
+
+# Alternatively, use the scale function to standardize multiple columns
+data_standardized <- as.data.frame(scale(mtcars))
+```
+
+Standardized 'mpg' values:
+
+```{r, echo=FALSE}
+print(summary(mpg_standardized))
+```
+
+## Step 4: Data Reduction
+
+Data reduction is a crucial step when working with high-dimensional data sets. Reducing the number of variables (features) or the size of your dataset helps reduce the risk of having an overfitting model in downstream analyses. These methods can improve the accuracy and performance of your model. By decreasing the size of your dataset one can also decrease the comutational burden.
+
+#### Types of Data Reduction Techniques:
+
+1.  Principal Component Analysis (PCA): PCA is a commonly used technique for dimensionality reduction. It transforms the data into a new coordinate system where the greatest variance lies on the first principal components.
+
+2.  Feature Selection: This involves selecting a subset of relevant features based on certain criteria such as correlation or variance.
+
+3.  Sampling: Instead of using the entire dataset, you can sample a representative portion of the data for training.
+
+4.  Aggregation: Aggregating data points into groups (e.g., by averaging or summing) to reduce the number of instances while retaining key characteristics.
+
+#### **PCA:**
+
+```{r}
+
+# Standardize the dataset (scale to mean 0 and standard deviation 1)
+mtcars_scaled <- as.data.frame(scale(mtcars))
+
+# Perform PCA to reduce the dataset to two principal components
+pca_result <- prcomp(mtcars_scaled, center = TRUE, scale. = TRUE)
+
+# Get summary of PCA to show variance explained by each component
+summary(pca_result)
+
+# Create a biplot to visualize PCA (first two principal components)**** make better
+biplot(pca_result, scale = 0)
+```
+
+#### **Feature Selection:**
+
+`mtcars` prior to feature selection:
+
+```{r}
+str(mtcars)
+
+# Step 1: Calculate the variance for each feature (column)
+feature_variances <- apply(mtcars, 2, var)
+
+# Step 2: Set a threshold for filtering low variance features (e.g., use the 25th percentile of the variance)
+threshold <- quantile(feature_variances, 0.25) 
+
+# Step 3: Retain only the features with variance above the threshold
+filtered_data <- mtcars[, feature_variances > threshold]
+```
+
+`mtcars` after feature selection:
+
+```{r}
+str(filtered_data)
+```
+
+#### **Now your data is ready for downstream analyses!**

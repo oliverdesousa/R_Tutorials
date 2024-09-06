@@ -1,0 +1,17 @@
+---
+title: "Data Analysis in R"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+    # Adding extra options
+    theme: united  # Optional: You can specify a theme for your site
+editor_options:
+  chunk_output_type: console
+---
+
+This site is designed to provide you with valuable insights and hands-on experience through a series of detailed modules. Each module covers a different aspect of data science, from foundational concepts to advanced techniques.
+
+Discover unsupervised learning methods. This module focuses on techniques for identifying patterns and structures in unlabeled data, including clustering and dimensionality reduction.
+
+**Feel free to navigate through the modules using the links above to gain a deeper understanding of each topic. Whether you're new to data science or looking to refine your skills, this site offers a wealth of information and practical exercises to enhance your knowledge.**

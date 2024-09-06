@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Stefano Cacciatore" />
+
+<meta name="date" content="2024-09-06" />
+
+<title>Module 5: Multivariate Regression</title>
+
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R Tutorial</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+<li>
+  <a href="Module_1_Basics.html">Basics</a>
+</li>
+<li>
+  <a href="Module_PP.html">Data Pre-processing</a>
+</li>
+<li>
+  <a href="Module_2_Visualisation.html">Visualisation</a>
+</li>
+<li>
+  <a href="supervised_learning.html">Supervised Learning</a>
+</li>
+<li>
+  <a href="Module_5_Unsupervised_Learning.html">Unsupervised Learning</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Module 5: Multivariate Regression</h1>
+<h4 class="author">Stefano Cacciatore</h4>
+<h4 class="date">September 06, 2024</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2024-09-06
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>myproject/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20240905code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20240905)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20240905code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20240905)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomoliverdesousaProjecttree9cfbfa109d39a69a8dfca94e810e9da19f3cd663targetblank9cfbfa1a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/oliverdesousa/Project/tree/9cfbfa109d39a69a8dfca94e810e9da19f3cd663" target="_blank">9cfbfa1</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomoliverdesousaProjecttree9cfbfa109d39a69a8dfca94e810e9da19f3cd663targetblank9cfbfa1a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/oliverdesousa/Project/tree/9cfbfa109d39a69a8dfca94e810e9da19f3cd663" target="_blank">9cfbfa1</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .BidstackAds-b51a10b9/
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    .Trash/
+    Ignored:    .android/
+    Ignored:    Templates/
+    Ignored:    Untitled Folder/
+    Ignored:    ilifu/
+    Ignored:    sql/
+
+Untracked files:
+    Untracked:   ⁨Library/
+    Untracked:  .AliView/
+    Untracked:  .CFUserTextEncoding
+    Untracked:  .DS_Store
+    Untracked:  .IdentityService/
+    Untracked:  .R/
+    Untracked:  .RDataTmp
+    Untracked:  .Rapp.history
+    Untracked:  .ServiceHub/
+    Untracked:  .Xauthority
+    Untracked:  .anaconda/
+    Untracked:  .anyconnect
+    Untracked:  .aspnet/
+    Untracked:  .azcopy/
+    Untracked:  .bash_history
+    Untracked:  .bash_profile
+    Untracked:  .bashrc
+    Untracked:  .bidstack-device-id
+    Untracked:  .cache/
+    Untracked:  .cisco/
+    Untracked:  .conda/
+    Untracked:  .condarc
+    Untracked:  .config/
+    Untracked:  .continuum/
+    Untracked:  .cups/
+    Untracked:  .docker/
+    Untracked:  .dotnet/
+    Untracked:  .dropbox/
+    Untracked:  .gitconfig
+    Untracked:  .gitignore
+    Untracked:  .globusonline/
+    Untracked:  .gsutil/
+    Untracked:  .idlerc/
+    Untracked:  .ipynb_checkpoints/
+    Untracked:  .ipython/
+    Untracked:  .jupyter/
+    Untracked:  .keras/
+    Untracked:  .lesshst
+    Untracked:  .local/
+    Untracked:  .matplotlib/
+    Untracked:  .mono/
+    Untracked:  .nuget/
+    Untracked:  .nuuid.ini
+    Untracked:  .oracle_jre_usage/
+    Untracked:  .pdfbox.cache
+    Untracked:  .python_history
+    Untracked:  .sqlite_history
+    Untracked:  .ssh/
+    Untracked:  .tcshrc
+    Untracked:  .templateengine/
+    Untracked:  .test.txt.swp
+    Untracked:  .viminfo
+    Untracked:  .vscode/
+    Untracked:  .wget-hsts
+    Untracked:  .wine/
+    Untracked:  .wing101-9
+    Untracked:  .xonshrc
+    Untracked:  .zprofile
+    Untracked:  .zprofile.pysave
+    Untracked:  .zsh_history
+    Untracked:  .zsh_sessions/
+    Untracked:  .zshrc
+    Untracked:  Applications (Parallels)/
+    Untracked:  Applications/
+    Untracked:  Chunk.R
+    Untracked:  Desktop/
+    Untracked:  Documents/
+    Untracked:  Downloads/
+    Untracked:  Dropbox/
+    Untracked:  Library/
+    Untracked:  Movies/
+    Untracked:  Music/
+    Untracked:  Parallels/
+    Untracked:  Pedigree.R
+    Untracked:  Pictures/
+    Untracked:  PlayOnMac's virtual drives
+    Untracked:  Projects/
+    Untracked:  Public/
+    Untracked:  Untitled.ipynb
+    Untracked:  _TyranoGameData/
+    Untracked:  anaconda3/
+    Untracked:  annotation/
+    Untracked:  bcftools-1.9.tar.bz2
+    Untracked:  bcftools-1.9/
+    Untracked:  clumping_EX.txt
+    Untracked:  df.csv
+    Untracked:  df_R_tut.csv
+    Untracked:  eval "$(ssh-agent -s)"
+    Untracked:  eval "$(ssh-agent -s)".pub
+    Untracked:  gfortran-4.8.2-darwin13.tar.bz2
+    Untracked:  gnomad.genomes.v3.1.1.sites.chr1.vcf.bgz
+    Untracked:  myenv/
+    Untracked:  text.txt
+    Untracked:  venv/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="unsupervised-learning-ul" class="section level2">
+<h2>Unsupervised Learning (UL)</h2>
+<p>Unsupervised Learning (UL) is a technique that uncovers patterns in
+data without predefined labels or extensive human input. Unlike
+supervised learning, which relies on data with known outcomes, UL
+focuses on exploring relationships within the data itself.</p>
+<p>A key approach in UL is clustering, where data points are grouped
+based on their similarities. Common methods include <strong>K-means
+clustering</strong>, <strong>Hierarchical clustering</strong>, and
+<strong>Probabilistic clustering</strong>. <strong>DBSCAN</strong>
+(Density-Based Spatial Clustering of Applications with Noise) is another
+powerful clustering method that identifies clusters based on data
+density and can handle noise effectively.</p>
+<p>For instance, in mRNA expression analysis, <code>clustering</code>
+can group genes with similar expression profiles, while
+<code>DBSCAN</code> might reveal clusters of genes with high expression
+density and identify outliers.</p>
+<p>Additionally, dimensionality reduction techniques like Principal
+Component Analysis (PCA) and t-Distributed Stochastic Neighbor Embedding
+(t-SNE) are used to simplify and visualize complex data. These methods
+help reveal hidden structures and insights, such as the genetic basis of
+various conditions.</p>
+<pre class="r"><code># Load necessary libraries
+library(dplyr)
+library(cluster)     # For clustering algorithms
+library(factoextra)  # For cluster visualization
+library(ggplot2)     # For data visualization
+library(Rtsne)       # For t-SNE visualization
+library(stats)       # For K-means
+library(tidyr)       # For handling missing data
+library(dendextend) # For Hierarchical Clustering
+library(ggfortify)
+library(dbscan)
+library(mclust) # For probabilistic clustering
+library(caret)  # For scaling</code></pre>
+<div id="k-means-clustering" class="section level3">
+<h3>1. K-MEANS CLUSTERING</h3>
+<div id="step-1-prepare-data" class="section level4">
+<h4>Step 1: Prepare Data</h4>
+<pre class="r"><code>data &lt;- iris
+
+# Remove &quot;Species&quot; column as this is not needed for unsupervised learning.
+clean_data &lt;- data[,c(1:4)]
+
+# Step 1: Remove rows with missing values
+clean_data &lt;- na.omit(clean_data)
+
+# Step 2: Normalization/Scaling
+clean_data &lt;- scale(clean_data)</code></pre>
+</div>
+<div id="step-2-data-filtering-and-reduction" class="section level4">
+<h4>Step 2: Data Filtering and Reduction</h4>
+<ul>
+<li><p>This step involves filtering out variables with <strong><em>low
+variance</em></strong> and any <strong><em>missing values</em></strong>
+to ensure our data is clean and robust for analysis.</p></li>
+<li><p>The aim is to filter out variables that are <strong><em>unlikely
+to be informative</em></strong> for <strong><em>distinguishing between
+different samples</em></strong>.</p></li>
+</ul>
+<pre class="r"><code># Step 1: Calculate the variance for each gene (row)
+variances &lt;- apply(clean_data, 1, var)
+
+# Step 2: Set a threshold for filtering low variance genes
+threshold &lt;- quantile(variances, 0.25) # Lower 25% variance genes
+
+# Step 3: Retain only the genes with variance above the threshold
+filtered_data &lt;- clean_data[variances &gt; threshold, ]
+
+# Step 4: Remove duplicate rows
+filtered_data &lt;- unique(filtered_data)</code></pre>
+</div>
+<div id="step-3-clustering-prep-criterion-evaluation"
+class="section level4">
+<h4>Step 3: Clustering Prep &amp; Criterion Evaluation</h4>
+<ul>
+<li><p>Determine the number of clusters and evaluation criteria to
+ensure meaningful clusters.</p></li>
+<li><p>Use methods like the elbow method, silhouette score, or
+cross-validation to decide the optimal number of clusters.</p></li>
+</ul>
+<pre class="r"><code># 1. Elbow method
+fviz_nbclust(filtered_data, kmeans, method = &quot;wss&quot;) + 
+  labs(subtitle = &quot;Elbow Method for Optimal K&quot;)</code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># 2.  Silhouette method 
+fviz_nbclust(filtered_data, kmeans, method = &quot;silhouette&quot;) + 
+  labs(subtitle = &quot;Silhouette Method for Optimal K&quot;)</code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="step-4-k-means-clustering-parameter-selection"
+class="section level4">
+<h4>Step 4: K-means Clustering &amp; Parameter Selection</h4>
+<p>Perform K-means clustering with k = 2</p>
+<pre class="r"><code>set.seed(123)
+k &lt;- 2</code></pre>
+<pre class="r"><code># Use Euclidean distance
+kmeans_res_euclidean &lt;- kmeans(filtered_data, centers = k, nstart = 25)
+
+# For comparison, use Manhattan distance
+kmeans_res_manhattan &lt;- kmeans(dist(filtered_data, method = &quot;manhattan&quot;), centers = k, nstart = 25)
+
+# Visualize the clusters
+
+fviz_cluster(kmeans_res_euclidean, data = filtered_data) + 
+  labs(title = &quot;K-means Clustering with Euclidean Distance&quot;)</code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>fviz_cluster(kmeans_res_manhattan, data = filtered_data) + 
+  labs(title = &quot;K-means Clustering with Manhattan Distance&quot;)</code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="step-5-visualization-with-pca" class="section level4">
+<h4>Step 5: Visualization with PCA</h4>
+<ul>
+<li><p>Simplify and visualize the dataset using PCA to understand the
+structure and separation of clusters.</p></li>
+<li><p>Principal Component Analysis (PCA): Reduces dimensionality while
+preserving variance, helping to visualize data clusters.</p></li>
+</ul>
+<pre class="r"><code># PCA Visualization
+pca_res &lt;- prcomp(filtered_data, scale. = TRUE)
+fviz_pca_ind(pca_res, 
+             geom.ind = &quot;point&quot;, 
+             col.ind = as.factor(kmeans_res_euclidean$cluster)) +
+  labs(title = &quot;PCA Visualization&quot;)</code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="step-6-visualization-with-t-sne" class="section level4">
+<h4>Step 6: Visualization with t-SNE</h4>
+<ul>
+<li><p>Use t-SNE to visualize high-dimensional data in a
+lower-dimensional space.</p></li>
+<li><p>Captures complex nonlinear relationships and helps visualize
+clusters in a 2D or 3D space.</p></li>
+</ul>
+<pre class="r"><code># t-SNE Visualization
+
+set.seed(123)
+tsne_res &lt;- Rtsne(as.matrix(filtered_data), dims = 2, perplexity = 30, verbose = TRUE)</code></pre>
+<pre><code>Performing PCA
+Read the 111 x 4 data matrix successfully!
+Using no_dims = 2, perplexity = 30.000000, and theta = 0.500000
+Computing input similarities...
+Building tree...
+Done in 0.00 seconds (sparsity = 0.917945)!
+Learning embedding...
+Iteration 50: error is 44.627595 (50 iterations in 0.01 seconds)
+Iteration 100: error is 45.903708 (50 iterations in 0.01 seconds)
+Iteration 150: error is 45.749863 (50 iterations in 0.01 seconds)
+Iteration 200: error is 45.634573 (50 iterations in 0.01 seconds)
+Iteration 250: error is 45.790970 (50 iterations in 0.01 seconds)
+Iteration 300: error is 0.604419 (50 iterations in 0.01 seconds)
+Iteration 350: error is 0.059675 (50 iterations in 0.01 seconds)
+Iteration 400: error is 0.055524 (50 iterations in 0.01 seconds)
+Iteration 450: error is 0.055052 (50 iterations in 0.01 seconds)
+Iteration 500: error is 0.053743 (50 iterations in 0.01 seconds)
+Iteration 550: error is 0.054384 (50 iterations in 0.01 seconds)
+Iteration 600: error is 0.054418 (50 iterations in 0.01 seconds)
+Iteration 650: error is 0.054351 (50 iterations in 0.01 seconds)
+Iteration 700: error is 0.054478 (50 iterations in 0.01 seconds)
+Iteration 750: error is 0.055578 (50 iterations in 0.01 seconds)
+Iteration 800: error is 0.054039 (50 iterations in 0.01 seconds)
+Iteration 850: error is 0.053165 (50 iterations in 0.01 seconds)
+Iteration 900: error is 0.053062 (50 iterations in 0.01 seconds)
+Iteration 950: error is 0.053539 (50 iterations in 0.01 seconds)
+Iteration 1000: error is 0.052561 (50 iterations in 0.01 seconds)
+Fitting performed in 0.18 seconds.</code></pre>
+<pre class="r"><code># Convert t-SNE results to a data frame for plotting
+tsne_data &lt;- as.data.frame(tsne_res$Y)
+colnames(tsne_data) &lt;- c(&quot;Dim1&quot;, &quot;Dim2&quot;)
+
+# Map the clusters from k-means result to the t-SNE data
+tsne_data$Cluster &lt;- as.factor(kmeans_res_euclidean$cluster)
+
+# Plot t-SNE results
+library(ggplot2)
+ggplot(tsne_data, aes(x = Dim1, y = Dim2, color = Cluster)) + 
+  geom_point() + 
+  labs(title = &quot;t-SNE Visualization&quot;, x = &quot;Dimension 1&quot;, y = &quot;Dimension 2&quot;)</code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="t-sne-parameter-optimization" class="section level4">
+<h4>T-SNE Parameter optimization:</h4>
+<p>One could adjust parameters such as <code>perplexity</code>,
+<code>exaggeration</code>, and <code>PCAComps</code> iteratively based
+on the visualization results.</p>
+<p>Evaluate if clusters are <em>too separated</em> or <em>not well
+defined</em>. Modify exaggeration_num and perplexity to refine cluster
+separation and representation.</p>
+<p>Lets see what happens when we adjust some parameters?</p>
+<pre class="r"><code># Set seed for reproducibility
+set.seed(1)
+
+# Example data: replace this with your actual data
+expression &lt;- filtered_data
+expression_standardized &lt;- scale(expression)  # Standardize data
+
+# Parameters
+algorithm &lt;- &#39;barnes_hut&#39;  # Not directly set in R, handled internally
+distance_metric &lt;- &#39;euclidean&#39;  # Rtsne does not support &#39;spearman&#39; directly
+exaggeration_num &lt;- 4
+PCAComps &lt;- 0
+pca_comps &lt;- if (PCAComps == 0) NULL else PCAComps  # Set PCA dimension reduction
+perp_num &lt;- 30
+
+# Optionally apply PCA if PCAComps &gt; 0
+if (!is.null(pca_comps)) {
+  pca_res &lt;- prcomp(expression_standardized, center = TRUE, scale. = TRUE)
+  expression_pca &lt;- pca_res$x[, 1:pca_comps]
+} else {
+  expression_pca &lt;- expression_standardized
+}
+
+# Run t-SNE
+tsne_res &lt;- Rtsne(expression_pca, dims = 2, pca = PCAComps &gt; 0, perplexity = perp_num, 
+                   check_duplicates = FALSE, verbose = TRUE)</code></pre>
+<pre><code>Read the 111 x 4 data matrix successfully!
+Using no_dims = 2, perplexity = 30.000000, and theta = 0.500000
+Computing input similarities...
+Building tree...
+Done in 0.00 seconds (sparsity = 0.918757)!
+Learning embedding...
+Iteration 50: error is 44.751156 (50 iterations in 0.01 seconds)
+Iteration 100: error is 45.308458 (50 iterations in 0.01 seconds)
+Iteration 150: error is 44.348748 (50 iterations in 0.01 seconds)
+Iteration 200: error is 45.104693 (50 iterations in 0.01 seconds)
+Iteration 250: error is 45.680708 (50 iterations in 0.01 seconds)
+Iteration 300: error is 0.734819 (50 iterations in 0.01 seconds)
+Iteration 350: error is 0.059571 (50 iterations in 0.01 seconds)
+Iteration 400: error is 0.054598 (50 iterations in 0.01 seconds)
+Iteration 450: error is 0.050394 (50 iterations in 0.01 seconds)
+Iteration 500: error is 0.053462 (50 iterations in 0.01 seconds)
+Iteration 550: error is 0.056509 (50 iterations in 0.01 seconds)
+Iteration 600: error is 0.055215 (50 iterations in 0.01 seconds)
+Iteration 650: error is 0.054666 (50 iterations in 0.01 seconds)
+Iteration 700: error is 0.053571 (50 iterations in 0.01 seconds)
+Iteration 750: error is 0.054591 (50 iterations in 0.01 seconds)
+Iteration 800: error is 0.056016 (50 iterations in 0.01 seconds)
+Iteration 850: error is 0.054679 (50 iterations in 0.01 seconds)
+Iteration 900: error is 0.055034 (50 iterations in 0.01 seconds)
+Iteration 950: error is 0.055220 (50 iterations in 0.01 seconds)
+Iteration 1000: error is 0.054738 (50 iterations in 0.01 seconds)
+Fitting performed in 0.19 seconds.</code></pre>
+<pre class="r"><code># Convert t-SNE results to a data frame for plotting
+tsne_data &lt;- as.data.frame(tsne_res$Y)
+colnames(tsne_data) &lt;- c(&quot;Dim1&quot;, &quot;Dim2&quot;)
+
+# Here we use the cluster labels from k-means:
+set.seed(1)
+cluster_labels &lt;- kmeans(expression_standardized, centers = 3)$cluster
+tsne_data$Cluster &lt;- as.factor(cluster_labels)
+
+# Plotting t-SNE results
+ggplot(tsne_data, aes(x = Dim1, y = Dim2, color = Cluster)) + 
+  geom_point() + 
+  labs(title = &quot;t-SNE Visualization&quot;, x = &quot;Dimension 1&quot;, y = &quot;Dimension 2&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary>
+<em>Assessing Clustering Performance?</em>
+</summary>
+<p>Within-Cluster Sum of Squares (Inertia)</p>
+<ul>
+<li>Inertia measures the compactness of clusters.</li>
+<li>Lower values indicate better clustering.</li>
+</ul>
+<pre class="r"><code># Compute inertia for K-means clustering
+inertia_euclidean &lt;- kmeans_res_euclidean$tot.withinss
+inertia_manhattan &lt;- kmeans_res_manhattan$tot.withinss
+
+# Print inertia values
+cat(&quot;Inertia for Euclidean K-means:&quot;, inertia_euclidean, &quot;\n&quot;)</code></pre>
+<pre><code>Inertia for Euclidean K-means: 159.1761 </code></pre>
+<pre class="r"><code>cat(&quot;Inertia for Manhattan K-means:&quot;, inertia_manhattan, &quot;\n&quot;)</code></pre>
+<pre><code>Inertia for Manhattan K-means: 18284.96 </code></pre>
+<p>We see that our Euclidean K-means model produced more compact
+clusters.</p>
+<p><strong><em>Silhouette Analysis</em></strong></p>
+<ul>
+<li><p>Silhouette scores measure how similar each point is to its own
+cluster compared to other clusters.</p></li>
+<li><p>Scores close to 1 indicate good clustering.</p></li>
+</ul>
+<pre class="r"><code>library(cluster)
+
+# Calculate silhouette scores for Euclidean K-means
+silhouette_euclidean &lt;- silhouette(kmeans_res_euclidean$cluster, dist(filtered_data))
+plot(silhouette_euclidean, main = &quot;Silhouette Plot for Euclidean K-means&quot;)</code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Calculate silhouette scores for Manhattan K-means
+silhouette_manhattan &lt;- silhouette(kmeans_res_manhattan$cluster, dist(filtered_data, method = &quot;manhattan&quot;))
+plot(silhouette_manhattan, main = &quot;Silhouette Plot for Manhattan K-means&quot;)</code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-12-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><strong><em>Cluster Validation Metrics</em></strong></p>
+<p>Additional metrics can provide further validation of clustering
+results.</p>
+<pre class="r"><code>library(NbClust)
+
+# Use NbClust to determine the optimal number of clusters
+nb &lt;- NbClust(filtered_data, min.nc = 2, max.nc = 10, method = &quot;kmeans&quot;)</code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>*** : The Hubert index is a graphical method of determining the number of clusters.
+                In the plot of Hubert index, we seek a significant knee that corresponds to a 
+                significant increase of the value of the measure i.e the significant peak in Hubert
+                index second differences plot. 
+ </code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-13-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>*** : The D index is a graphical method of determining the number of clusters. 
+                In the plot of D index, we seek a significant knee (the significant peak in Dindex
+                second differences plot) that corresponds to a significant increase of the value of
+                the measure. 
+ 
+******************************************************************* 
+* Among all indices:                                                
+* 12 proposed 2 as the best number of clusters 
+* 2 proposed 3 as the best number of clusters 
+* 8 proposed 5 as the best number of clusters 
+* 2 proposed 10 as the best number of clusters 
+
+                   ***** Conclusion *****                            
+ 
+* According to the majority rule, the best number of clusters is  2 
+ 
+ 
+******************************************************************* </code></pre>
+</div>
+</div>
+<div id="hierarchical-clustering" class="section level3">
+<h3>2. Hierarchical Clustering:</h3>
+<pre class="r"><code># Using our cleaned data: &quot;filtered_data&quot;
+
+# Compute the distance matrix
+dist_matrix &lt;- dist(filtered_data, method = &quot;euclidean&quot;)
+
+# Perform hierarchical clustering
+hc &lt;- hclust(dist_matrix, method = &quot;complete&quot;)
+
+# Plot the dendrogram
+plot(hc, main = &quot;Dendrogram of Hierarchical Clustering&quot;, xlab = &quot;Branches&quot;, ylab = &quot;Euclidean Distance&quot;, labels = FALSE)</code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Visualising the output from our Hierarchical Clustering using
+PCA:</p>
+<pre class="r"><code># Convert PCA results to a data frame for ggplot2
+pca_df &lt;- as.data.frame(pca_res$x)
+
+# Perform Hierarchical Clustering
+dist_matrix &lt;- dist(filtered_data, method = &quot;euclidean&quot;)
+hc &lt;- hclust(dist_matrix, method = &quot;complete&quot;)
+
+# Cut dendrogram to form clusters
+clusters &lt;- cutree(hc, k = 3)  # Adjust k based on the desired number of clusters
+
+# Add cluster assignments to the PCA data
+pca_res$clusters &lt;- as.factor(clusters)
+
+# Visualize the clusters using PCA for dimensionality reduction
+ggplot(pca_res, aes(x = PC1, y = PC2, color = clusters)) +
+  geom_point(size = 3) +
+  labs(title = &quot;PCA of Hierarchical Clustering&quot;, x = &quot;PC1&quot;, y = &quot;PC2&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="probabilistic-clustering" class="section level3">
+<h3>3. Probabilistic Clustering:</h3>
+<pre class="r"><code># Data Prep:
+data(iris)
+data &lt;- iris[, 1:4]  # Use only numerical features
+# Normalize/Scale the data
+scaled_data &lt;- scale(data)
+
+# Fit the Gaussian Mixture Model
+model &lt;- Mclust(data)</code></pre>
+<p>The output from the model indicates that the GMM identified 2
+clusters with the same shape and variance.</p>
+<ul>
+<li>Cluster 1: Contains 50 data points.</li>
+<li>Cluster 2: Contains 100 data points.</li>
+</ul>
+<pre class="r"><code># View model summary
+summary(model)</code></pre>
+<pre><code>---------------------------------------------------- 
+Gaussian finite mixture model fitted by EM algorithm 
+---------------------------------------------------- 
+
+Mclust VEV (ellipsoidal, equal shape) model with 2 components: 
+
+ log-likelihood   n df       BIC       ICL
+       -215.726 150 26 -561.7285 -561.7289
+
+Clustering table:
+  1   2 
+ 50 100 </code></pre>
+<pre class="r"><code># Plot the clustering results
+plot(model, what = &quot;classification&quot;)</code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Predict cluster memberships for new data
+new_data &lt;- data[1:5, ]
+predictions &lt;- predict(model, new_data)
+print(predictions$classification)</code></pre>
+<pre><code>[1] 1 1 1 1 1</code></pre>
+</div>
+<div id="density-based-clustering-dbscan" class="section level3">
+<h3>4. Density-Based Clustering (DBSCAN):</h3>
+<p>DBSCAN identifies clusters based on the density and noise of data
+points. It is particularly useful for finding clusters of arbitrary
+shape and handling high-noise datasets.</p>
+<pre class="r"><code># Load necessary libraries
+library(dbscan)
+library(ggplot2)
+
+# Data Prep:
+data(&quot;iris&quot;)
+iris &lt;- as.matrix(iris[, 1:4])
+# Remove rows with missing values
+clean_data &lt;- na.omit(iris)
+# Normalize/Scale the data
+scaled_data &lt;- scale(clean_data)</code></pre>
+<p><em>Determine suitable DBSCAN parameters:</em></p>
+<ul>
+<li><p><code>eps</code> = size (radius) of the epsilon
+neighborhood</p></li>
+<li><p>Where there is a sudden spike (increase) in the <code>kNN</code>
+distance = points to the right of this spike are most likely
+outliers.</p></li>
+<li><p>Choose this kNN distance as the ‘eps’</p></li>
+</ul>
+<pre class="r"><code># Visualize the k-NN distance plot for eps parameter
+kNNdistplot(scaled_data, minPts = 5)  </code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Add a line where approximately the noise starts. We see at
+<code>~0.8</code> the noise begins:</p>
+<pre class="r"><code>kNNdistplot(scaled_data, minPts = 5)  
+abline(h = 0.8, col = &quot;red&quot;, lty = 2)  </code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Now we can perform DBSCAN clustering:</p>
+<pre class="r"><code># Perform DBSCAN clustering
+eps &lt;- 0.8  # Set eps based on the k-NN distance plot
+minPts &lt;- 5  # minPts is set to the number of features + 1
+
+dbscan_result &lt;- dbscan(scaled_data, eps = eps, minPts = minPts)
+dbscan_result</code></pre>
+<pre><code>DBSCAN clustering for 150 objects.
+Parameters: eps = 0.8, minPts = 5
+Using euclidean distances and borderpoints = TRUE
+The clustering contains 2 cluster(s) and 4 noise points.
+
+ 0  1  2 
+ 4 49 97 
+
+Available fields: cluster, eps, minPts, metric, borderPoints</code></pre>
+<pre class="r"><code># Add cluster assignments to the original data
+airquality_clustered &lt;- cbind(clean_data, cluster = as.factor(dbscan_result$cluster))
+
+# Visualize the clusters using PCA for dimensionality reduction
+pca &lt;- prcomp(scaled_data, scale. = TRUE)
+pca_df &lt;- as.data.frame(pca$x)
+pca_df$cluster &lt;- as.factor(dbscan_result$cluster)
+
+ggplot(pca_df, aes(x = PC1, y = PC2, color = cluster)) +
+  geom_point(size = 3) +
+  labs(title = &quot;PCA of DBSCAN Clustering&quot;, x = &quot;PC1&quot;, y = &quot;PC2&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/Module_5_Unsupervised_Learning.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.4.1 (2024-06-14)
+Platform: aarch64-apple-darwin20
+Running under: macOS Sonoma 14.6.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: Africa/Johannesburg
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] NbClust_3.0.1     caret_6.0-94      lattice_0.22-6    mclust_6.1.1     
+ [5] dbscan_1.2-0      ggfortify_0.4.17  dendextend_1.17.1 tidyr_1.3.1      
+ [9] Rtsne_0.17        factoextra_1.0.7  ggplot2_3.5.1     cluster_2.1.6    
+[13] dplyr_1.1.4      
+
+loaded via a namespace (and not attached):
+ [1] pROC_1.18.5          gridExtra_2.3        rlang_1.1.4         
+ [4] magrittr_2.0.3       git2r_0.33.0         compiler_4.4.1      
+ [7] vctrs_0.6.5          reshape2_1.4.4       stringr_1.5.1       
+[10] pkgconfig_2.0.3      fastmap_1.2.0        backports_1.5.0     
+[13] labeling_0.4.3       utf8_1.2.4           promises_1.3.0      
+[16] rmarkdown_2.28       prodlim_2024.06.25   purrr_1.0.2         
+[19] xfun_0.47            cachem_1.1.0         jsonlite_1.8.8      
+[22] recipes_1.1.0        highr_0.11           later_1.3.2         
+[25] broom_1.0.6          parallel_4.4.1       R6_2.5.1            
+[28] bslib_0.8.0          stringi_1.8.4        parallelly_1.38.0   
+[31] car_3.1-2            rpart_4.1.23         lubridate_1.9.3     
+[34] jquerylib_0.1.4      Rcpp_1.0.13          iterators_1.0.14    
+[37] knitr_1.48           future.apply_1.11.2  httpuv_1.6.15       
+[40] Matrix_1.7-0         splines_4.4.1        nnet_7.3-19         
+[43] timechange_0.3.0     tidyselect_1.2.1     rstudioapi_0.16.0   
+[46] abind_1.4-5          yaml_2.3.10          viridis_0.6.5       
+[49] timeDate_4032.109    codetools_0.2-20     listenv_0.9.1       
+[52] tibble_3.2.1         plyr_1.8.9           withr_3.0.1         
+[55] evaluate_0.24.0      future_1.34.0        survival_3.7-0      
+[58] pillar_1.9.0         ggpubr_0.6.0         carData_3.0-5       
+[61] foreach_1.5.2        stats4_4.4.1         generics_0.1.3      
+[64] rprojroot_2.0.4      munsell_0.5.1        scales_1.3.0        
+[67] globals_0.16.3       class_7.3-22         glue_1.7.0          
+[70] tools_4.4.1          data.table_1.16.0    ModelMetrics_1.2.2.2
+[73] gower_1.0.1          ggsignif_0.6.4       fs_1.6.4            
+[76] grid_4.4.1           ipred_0.9-15         colorspace_2.1-1    
+[79] nlme_3.1-166         cli_3.6.3            workflowr_1.7.1     
+[82] fansi_1.0.6          viridisLite_0.4.2    lava_1.8.0          
+[85] gtable_0.3.5         rstatix_0.7.2        sass_0.4.9          
+[88] digest_0.6.37        ggrepel_0.9.5        farver_2.1.2        
+[91] htmltools_0.5.8.1    lifecycle_1.0.4      hardhat_1.4.0       
+[94] MASS_7.3-61         </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Stefano Cacciatore" />
+
+<meta name="date" content="2024-09-06" />
+
+<title>Module 2: Data Pre-Proccessing</title>
+
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R Tutorial</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+<li>
+  <a href="Module_1_Basics.html">Basics</a>
+</li>
+<li>
+  <a href="Module_PP.html">Data Pre-processing</a>
+</li>
+<li>
+  <a href="Module_2_Visualisation.html">Visualisation</a>
+</li>
+<li>
+  <a href="supervised_learning.html">Supervised Learning</a>
+</li>
+<li>
+  <a href="Module_5_Unsupervised_Learning.html">Unsupervised Learning</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Module 2: Data Pre-Proccessing</h1>
+<h4 class="author">Stefano Cacciatore</h4>
+<h4 class="date">September 06, 2024</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2024-09-06
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>myproject/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20240905code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20240905)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20240905code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20240905)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomoliverdesousaProjecttree9cfbfa109d39a69a8dfca94e810e9da19f3cd663targetblank9cfbfa1a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/oliverdesousa/Project/tree/9cfbfa109d39a69a8dfca94e810e9da19f3cd663" target="_blank">9cfbfa1</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomoliverdesousaProjecttree9cfbfa109d39a69a8dfca94e810e9da19f3cd663targetblank9cfbfa1a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/oliverdesousa/Project/tree/9cfbfa109d39a69a8dfca94e810e9da19f3cd663" target="_blank">9cfbfa1</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .BidstackAds-b51a10b9/
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    .Trash/
+    Ignored:    .android/
+    Ignored:    Templates/
+    Ignored:    Untitled Folder/
+    Ignored:    ilifu/
+    Ignored:    sql/
+
+Untracked files:
+    Untracked:   ⁨Library/
+    Untracked:  .AliView/
+    Untracked:  .CFUserTextEncoding
+    Untracked:  .DS_Store
+    Untracked:  .IdentityService/
+    Untracked:  .R/
+    Untracked:  .RDataTmp
+    Untracked:  .Rapp.history
+    Untracked:  .ServiceHub/
+    Untracked:  .Xauthority
+    Untracked:  .anaconda/
+    Untracked:  .anyconnect
+    Untracked:  .aspnet/
+    Untracked:  .azcopy/
+    Untracked:  .bash_history
+    Untracked:  .bash_profile
+    Untracked:  .bashrc
+    Untracked:  .bidstack-device-id
+    Untracked:  .cache/
+    Untracked:  .cisco/
+    Untracked:  .conda/
+    Untracked:  .condarc
+    Untracked:  .config/
+    Untracked:  .continuum/
+    Untracked:  .cups/
+    Untracked:  .docker/
+    Untracked:  .dotnet/
+    Untracked:  .dropbox/
+    Untracked:  .gitconfig
+    Untracked:  .gitignore
+    Untracked:  .globusonline/
+    Untracked:  .gsutil/
+    Untracked:  .idlerc/
+    Untracked:  .ipynb_checkpoints/
+    Untracked:  .ipython/
+    Untracked:  .jupyter/
+    Untracked:  .keras/
+    Untracked:  .lesshst
+    Untracked:  .local/
+    Untracked:  .matplotlib/
+    Untracked:  .mono/
+    Untracked:  .nuget/
+    Untracked:  .nuuid.ini
+    Untracked:  .oracle_jre_usage/
+    Untracked:  .pdfbox.cache
+    Untracked:  .python_history
+    Untracked:  .sqlite_history
+    Untracked:  .ssh/
+    Untracked:  .tcshrc
+    Untracked:  .templateengine/
+    Untracked:  .test.txt.swp
+    Untracked:  .viminfo
+    Untracked:  .vscode/
+    Untracked:  .wget-hsts
+    Untracked:  .wine/
+    Untracked:  .wing101-9
+    Untracked:  .xonshrc
+    Untracked:  .zprofile
+    Untracked:  .zprofile.pysave
+    Untracked:  .zsh_history
+    Untracked:  .zsh_sessions/
+    Untracked:  .zshrc
+    Untracked:  Applications (Parallels)/
+    Untracked:  Applications/
+    Untracked:  Chunk.R
+    Untracked:  Desktop/
+    Untracked:  Documents/
+    Untracked:  Downloads/
+    Untracked:  Dropbox/
+    Untracked:  Library/
+    Untracked:  Movies/
+    Untracked:  Music/
+    Untracked:  Parallels/
+    Untracked:  Pedigree.R
+    Untracked:  Pictures/
+    Untracked:  PlayOnMac's virtual drives
+    Untracked:  Projects/
+    Untracked:  Public/
+    Untracked:  Untitled.ipynb
+    Untracked:  _TyranoGameData/
+    Untracked:  anaconda3/
+    Untracked:  annotation/
+    Untracked:  bcftools-1.9.tar.bz2
+    Untracked:  bcftools-1.9/
+    Untracked:  clumping_EX.txt
+    Untracked:  df.csv
+    Untracked:  df_R_tut.csv
+    Untracked:  eval "$(ssh-agent -s)"
+    Untracked:  eval "$(ssh-agent -s)".pub
+    Untracked:  gfortran-4.8.2-darwin13.tar.bz2
+    Untracked:  gnomad.genomes.v3.1.1.sites.chr1.vcf.bgz
+    Untracked:  myenv/
+    Untracked:  text.txt
+    Untracked:  venv/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="data-pre-proccessing" class="section level1">
+<h1>Data Pre-Proccessing</h1>
+<pre class="r"><code>#install.packages(&quot;Hmisc&quot;)
+library(Hmisc)
+library(dplyr)
+library(ggplot2)
+data(&quot;airquality&quot;)
+data(&quot;mtcars&quot;)</code></pre>
+<div id="step-1-data-collection" class="section level2">
+<h2>Step 1: Data Collection</h2>
+<p>Firstly, in order to conduct your analysis you need to have your
+data.</p>
+<p>The source of data depends on your research question and project
+requirements.</p>
+<p>You need to ensure that the data you obtain is of high-quality and of
+relevance to your problem.</p>
+</div>
+<div id="step-2-data-cleaning" class="section level2">
+<h2>Step 2: Data Cleaning</h2>
+<div id="a.-isolate-and-deal-with-missing-values"
+class="section level4">
+<h4>a. Isolate and deal with <strong>missing values</strong>:</h4>
+<p>There are multiple methods for dealing with missing data.</p>
+<p>If the missing values are random within your data set and don’t seem
+to follow a pattern (i.e., there seem to be certain columns with high
+missingness when compared with others), one could replace these missing
+values with the mean or median of the column.</p>
+<p>In most cases, rows with high missingness could introduce bias.
+Therefore, it would be more accurate to remove these samples to avoid
+biasing your analysis.</p>
+<pre class="r"><code># For the below we will be using the dataset: &quot;airquality&quot; as this data has missing values to remove.
+
+# Check for missing values
+missing_values &lt;- sapply(airquality, function(x) sum(is.na(x)))
+
+# Print the count of missing values in each column
+print(missing_values)</code></pre>
+<pre><code>  Ozone Solar.R    Wind    Temp   Month     Day 
+     37       7       0       0       0       0 </code></pre>
+<pre class="r"><code># Create a copy of the dataset for cleaning
+airquality_clean &lt;- airquality
+
+# Calculate the median for each column (ignoring NA values)
+medians &lt;- sapply(airquality_clean, function(x) median(x, na.rm = TRUE))
+
+# Replace NA values with the corresponding column medians
+for (col in names(airquality_clean)) {
+  airquality_clean[is.na(airquality_clean[[col]]), col] &lt;- medians[col]
+}</code></pre>
+<pre class="r"><code># Alternatively, remove rows with any missing values (if applicable)
+airquality_clean_2 &lt;- na.omit(airquality)
+
+# Now we check for cleaned data missing values:
+missing_values &lt;- sapply(airquality_clean, function(x) sum(is.na(x)))
+
+missing_values_2 &lt;- sapply(airquality_clean_2, function(x) sum(is.na(x)))
+
+cat(&quot;The number of missing values from 1st dataset:&quot;, sum(missing_values),  
+    &quot;and from the 2nd dataset:&quot;, sum(missing_values_2), &quot;\n&quot;)</code></pre>
+<pre><code>The number of missing values from 1st dataset: 0 and from the 2nd dataset: 0 </code></pre>
+</div>
+<div id="b.-look-for-outliers-and-inconsistencies-within-your-data"
+class="section level4">
+<h4>b. Look for <strong>outliers</strong> and inconsistencies within
+your data</h4>
+<p>Outliers in a dataset are values that deviate from the rest of your
+data and if included could skew your analysis and decrease the accuracy
+of your analysis.</p>
+<p>One can identify outliers using <code>z-score normalisation</code> to
+calculate how many SD’s your value is from the mean (i.e., evaluates how
+unsual a data point is).</p>
+<pre class="r"><code># Calculate z-scores for each feature
+z_scores &lt;- scale(airquality_clean_2)
+
+# Identify outliers using a z-score threshold (e.g., 3 standard deviations)
+outlier_threshold &lt;- 2
+outliers &lt;- apply(z_scores, 2, function(x) sum(abs(x) &gt; outlier_threshold))
+
+# Print the number of outliers in each column
+print(outliers)</code></pre>
+<pre><code>  Ozone Solar.R    Wind    Temp   Month     Day 
+      6       0       5       3       0       0 </code></pre>
+<p>Once you have identified outliers you can either remove them or use a
+cut-off threshold to only exclude values above/below a certain
+score.</p>
+<pre class="r"><code># Remove outliers based on the threshold
+# Keep rows where all feature z-scores are within the threshold
+airquality_no_outliers &lt;- airquality_clean_2[apply(z_scores, 1, function(x) all(abs(x) &lt;= outlier_threshold)), ]
+
+# Recalculate z-scores for the dataset without outliers
+z_scores_no_outliers &lt;- scale(airquality_no_outliers)
+
+# Identify remaining outliers
+outliers_no_outliers &lt;- apply(z_scores_no_outliers, 2, function(x) sum(abs(x) &gt; outlier_threshold))
+
+# Print the number of outliers in each column after removal
+print(outliers_no_outliers)</code></pre>
+<pre><code>  Ozone Solar.R    Wind    Temp   Month     Day 
+      5       0       2       3       0       0 </code></pre>
+</div>
+</div>
+<div id="step-3-data-transformation" class="section level2">
+<h2>Step 3: Data Transformation</h2>
+<div
+id="variables-might-have-different-units-cmmkm-and-therefore-would-have-different-scales-and-distributions.-this-introduces-unnecessary-dificulties-for-your-algorithm."
+class="section level4">
+<h4>Variables might have different units (cm/m/km) and therefore would
+have different scales and distributions. This introduces unnecessary
+dificulties for your algorithm.</h4>
+<div id="min-max-normalisation" class="section level5">
+<h5><strong>MIN-MAX NORMALISATION</strong></h5>
+<ul>
+<li><p>Applying min-max normalization will define the values within a
+fixed range, commonly [0, 1].</p></li>
+<li><p>Typically used when you want to ensure all features are within
+the same range for certain machine learning algorithms (like neural
+networks) which are sensitive to the magnitude of the input
+value.</p></li>
+</ul>
+<pre class="r"><code>data(&quot;mtcars&quot;)
+
+# Min-max normalize the mpg variable
+mtcars$mpg_mm &lt;- scale(mtcars$mpg, 
+                       center = min(mtcars$mpg), 
+                       scale = max(mtcars$mpg) - min(mtcars$mpg))
+
+# Now we can check what minimum and maximum of the normalized mpg variable is:
+cat(&quot;The minimum of the normalized mpg variable is:&quot;, min(mtcars$mpg_mm),  
+    &quot;and the maximum is:&quot;, max(mtcars$mpg_mm), &quot;\n&quot;)</code></pre>
+<pre><code>The minimum of the normalized mpg variable is: 0 and the maximum is: 1 </code></pre>
+</div>
+</div>
+<div
+id="large-scale-variables-generally-lead-to-large-coefficients-and-could-result-in-unstable-and-incorrect-models.-therefore-our-data-needs-to-be-standardized-and-re-scaled-in-these-scenarios."
+class="section level4">
+<h4>Large scale variables (generally) lead to large coefficients and
+could result in unstable and incorrect models. Therefore our data needs
+to be <code>standardized</code> and <code>re-scaled</code> in these
+scenarios.</h4>
+<div id="z-score-normalisation" class="section level5">
+<h5><strong>Z-SCORE NORMALISATION</strong></h5>
+<ul>
+<li><p>Standardizes the data such that the mean of the values becomes 0
+and the standard deviation becomes 1.</p></li>
+<li><p>There is no fixed range after standardization and the values are
+rescaled relative to their SD</p></li>
+</ul>
+<pre class="r"><code>data(&quot;mtcars&quot;)
+
+# Standardize the &#39;mpg&#39; feature manually
+mpg_standardized &lt;- (mtcars$mpg - mean(mtcars$mpg)) / sd(mtcars$mpg)
+
+# Alternatively, use the scale function to standardize multiple columns
+data_standardized &lt;- as.data.frame(scale(mtcars))</code></pre>
+<p>Standardized ‘mpg’ values:</p>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+-1.6079 -0.7741 -0.1478  0.0000  0.4495  2.2913 </code></pre>
+</div>
+</div>
+</div>
+<div id="step-4-data-reduction" class="section level2">
+<h2>Step 4: Data Reduction</h2>
+<p>Data reduction is a crucial step when working with high-dimensional
+data sets. Reducing the number of variables (features) or the size of
+your dataset helps reduce the risk of having an overfitting model in
+downstream analyses. These methods can improve the accuracy and
+performance of your model. By decreasing the size of your dataset one
+can also decrease the comutational burden.</p>
+<div id="types-of-data-reduction-techniques" class="section level4">
+<h4>Types of Data Reduction Techniques:</h4>
+<ol style="list-style-type: decimal">
+<li><p>Principal Component Analysis (PCA): PCA is a commonly used
+technique for dimensionality reduction. It transforms the data into a
+new coordinate system where the greatest variance lies on the first
+principal components.</p></li>
+<li><p>Feature Selection: This involves selecting a subset of relevant
+features based on certain criteria such as correlation or
+variance.</p></li>
+<li><p>Sampling: Instead of using the entire dataset, you can sample a
+representative portion of the data for training.</p></li>
+<li><p>Aggregation: Aggregating data points into groups (e.g., by
+averaging or summing) to reduce the number of instances while retaining
+key characteristics.</p></li>
+</ol>
+</div>
+<div id="pca" class="section level4">
+<h4><strong>PCA:</strong></h4>
+<pre class="r"><code># Standardize the dataset (scale to mean 0 and standard deviation 1)
+mtcars_scaled &lt;- as.data.frame(scale(mtcars))
+
+# Perform PCA to reduce the dataset to two principal components
+pca_result &lt;- prcomp(mtcars_scaled, center = TRUE, scale. = TRUE)
+
+# Get summary of PCA to show variance explained by each component
+summary(pca_result)</code></pre>
+<pre><code>Importance of components:
+                          PC1    PC2     PC3     PC4     PC5     PC6    PC7
+Standard deviation     2.5707 1.6280 0.79196 0.51923 0.47271 0.46000 0.3678
+Proportion of Variance 0.6008 0.2409 0.05702 0.02451 0.02031 0.01924 0.0123
+Cumulative Proportion  0.6008 0.8417 0.89873 0.92324 0.94356 0.96279 0.9751
+                           PC8    PC9    PC10   PC11
+Standard deviation     0.35057 0.2776 0.22811 0.1485
+Proportion of Variance 0.01117 0.0070 0.00473 0.0020
+Cumulative Proportion  0.98626 0.9933 0.99800 1.0000</code></pre>
+<pre class="r"><code># Create a biplot to visualize PCA (first two principal components)**** make better
+biplot(pca_result, scale = 0)</code></pre>
+<p><img src="figure/Module_PP.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="feature-selection" class="section level4">
+<h4><strong>Feature Selection:</strong></h4>
+<p><code>mtcars</code> prior to feature selection:</p>
+<pre class="r"><code>str(mtcars)</code></pre>
+<pre><code>&#39;data.frame&#39;:   32 obs. of  11 variables:
+ $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+ $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...
+ $ disp: num  160 160 108 258 360 ...
+ $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
+ $ drat: num  3.9 3.9 3.85 3.08 3.15 2.76 3.21 3.69 3.92 3.92 ...
+ $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
+ $ qsec: num  16.5 17 18.6 19.4 17 ...
+ $ vs  : num  0 0 1 1 0 1 0 1 1 1 ...
+ $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
+ $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
+ $ carb: num  4 4 1 1 2 1 4 2 2 4 ...</code></pre>
+<pre class="r"><code># Step 1: Calculate the variance for each feature (column)
+feature_variances &lt;- apply(mtcars, 2, var)
+
+# Step 2: Set a threshold for filtering low variance features (e.g., use the 25th percentile of the variance)
+threshold &lt;- quantile(feature_variances, 0.25) 
+
+# Step 3: Retain only the features with variance above the threshold
+filtered_data &lt;- mtcars[, feature_variances &gt; threshold]</code></pre>
+<p><code>mtcars</code> after feature selection:</p>
+<pre class="r"><code>str(filtered_data)</code></pre>
+<pre><code>&#39;data.frame&#39;:   32 obs. of  8 variables:
+ $ mpg : num  21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+ $ cyl : num  6 6 4 6 8 6 8 4 4 6 ...
+ $ disp: num  160 160 108 258 360 ...
+ $ hp  : num  110 110 93 110 175 105 245 62 95 123 ...
+ $ wt  : num  2.62 2.88 2.32 3.21 3.44 ...
+ $ qsec: num  16.5 17 18.6 19.4 17 ...
+ $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
+ $ carb: num  4 4 1 1 2 1 4 2 2 4 ...</code></pre>
+</div>
+<div id="now-your-data-is-ready-for-downstream-analyses"
+class="section level4">
+<h4><strong>Now your data is ready for downstream
+analyses!</strong></h4>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.4.1 (2024-06-14)
+Platform: aarch64-apple-darwin20
+Running under: macOS Sonoma 14.6.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: Africa/Johannesburg
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ggplot2_3.5.1 dplyr_1.1.4   Hmisc_5.1-3  
+
+loaded via a namespace (and not attached):
+ [1] sass_0.4.9        utf8_1.2.4        generics_0.1.3    stringi_1.8.4    
+ [5] digest_0.6.37     magrittr_2.0.3    evaluate_0.24.0   grid_4.4.1       
+ [9] fastmap_1.2.0     rprojroot_2.0.4   workflowr_1.7.1   jsonlite_1.8.8   
+[13] backports_1.5.0   nnet_7.3-19       Formula_1.2-5     gridExtra_2.3    
+[17] promises_1.3.0    fansi_1.0.6       scales_1.3.0      jquerylib_0.1.4  
+[21] cli_3.6.3         rlang_1.1.4       munsell_0.5.1     withr_3.0.1      
+[25] base64enc_0.1-3   cachem_1.1.0      yaml_2.3.10       tools_4.4.1      
+[29] checkmate_2.3.2   htmlTable_2.4.3   colorspace_2.1-1  httpuv_1.6.15    
+[33] vctrs_0.6.5       R6_2.5.1          rpart_4.1.23      lifecycle_1.0.4  
+[37] git2r_0.33.0      stringr_1.5.1     htmlwidgets_1.6.4 fs_1.6.4         
+[41] foreign_0.8-87    cluster_2.1.6     pkgconfig_2.0.3   pillar_1.9.0     
+[45] bslib_0.8.0       later_1.3.2       gtable_0.3.5      data.table_1.16.0
+[49] glue_1.7.0        Rcpp_1.0.13       highr_0.11        xfun_0.47        
+[53] tibble_3.2.1      tidyselect_1.2.1  rstudioapi_0.16.0 knitr_1.48       
+[57] htmltools_0.5.8.1 rmarkdown_2.28    compiler_4.4.1   </code></pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
