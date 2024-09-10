@@ -1,5 +1,5 @@
 ---
-title: "Module 5: Multivariate Regression"
+title: "Module 5: Unsupervised Learning"
 author: "Stefano Cacciatore"
 output: 
   html_document:
@@ -14,14 +14,13 @@ date: "`r format(Sys.Date(), '%B %d, %Y')`"
 
 Unsupervised Learning (UL) is a technique that uncovers patterns in data without predefined labels or extensive human input. Unlike supervised learning, which relies on data with known outcomes, UL focuses on exploring relationships within the data itself.
 
-A key approach in UL is clustering, where data points are grouped based on their similarities. Common methods include **K-means clustering**, **Hierarchical clustering**, and **Probabilistic clustering**. 
+A key approach in UL is clustering, when data points are grouped based on their similarities. Common methods include **K-means clustering**, **Hierarchical clustering**, **Probabilistic clustering**. 
+
 **DBSCAN** (Density-Based Spatial Clustering of Applications with Noise) is another powerful clustering method that identifies clusters based on data density and can handle noise effectively. 
 
 For instance, in mRNA expression analysis, `clustering` can group genes with similar expression profiles, while `DBSCAN` might reveal clusters of genes with high expression density and identify outliers.
 
-Additionally, dimensionality reduction techniques like Principal Component Analysis (PCA) and t-Distributed Stochastic Neighbor Embedding (t-SNE) are used to simplify and visualize complex data. These methods help reveal hidden structures and insights, such as the genetic basis of various conditions.
-
-
+Additionally, dimensionality reduction techniques like **Principal Component Analysis (PCA)** and **t-Distributed Stochastic Neighbor Embedding (t-SNE)** are used to simplify and visualize complex data. These methods help reveal hidden structures and insights, such as the genetic basis of various conditions.
 
 ```{r,message=FALSE, warning=FALSE}
 # Load necessary libraries
@@ -220,7 +219,7 @@ ggplot(tsne_data, aes(x = Dim1, y = Dim2, color = Cluster)) +
 
 <summary>*Assessing Clustering Performance?*</summary>
 
-Within-Cluster Sum of Squares (Inertia)
+***Within-Cluster Sum of Squares (Inertia)***
 
 - Inertia measures the compactness of clusters. 
 - Lower values indicate better clustering.
@@ -237,7 +236,6 @@ cat("Inertia for Manhattan K-means:", inertia_manhattan, "\n")
 ```
 
 We see that our Euclidean K-means model produced more compact clusters.
-
 
 ***Silhouette Analysis***
 
@@ -256,6 +254,37 @@ plot(silhouette_euclidean, main = "Silhouette Plot for Euclidean K-means")
 silhouette_manhattan <- silhouette(kmeans_res_manhattan$cluster, dist(filtered_data, method = "manhattan"))
 plot(silhouette_manhattan, main = "Silhouette Plot for Manhattan K-means")
 
+```
+
+***Davies-Bouldin Index***
+
+- The DB-index is a validation technique that is a metric for evaluating clustering models.
+
+- The metric measures the average similarity between each cluster and the cluster most similar to it.
+
+- Similarity is assessed as the ratio of how spread out the points are within a cluster to the distance between cluster centroids. 
+
+- Low Davies-Bouldin Index values = better clustering, with well-separated clusters and lower dispersion being more favorable.
+
+```{r}
+# install.packages("clusterSim")
+library(clusterSim)
+
+# Step 1:   Prepare distance matrix for Euclidean distance clustering
+dist_matrix <- dist(filtered_data)
+###   Prepare distance matrix for Manhattan distance clustering
+dist_matrix_manhattan <- dist(filtered_data, method = "manhattan")
+
+###   Calculate Davies-Bouldin Index for Euclidean distance clustering:
+db_index_euclidean <- index.DB(filtered_data, kmeans_res_euclidean$cluster, d =
+                                 dist_matrix, centrotypes = "centroids")
+
+# Compute Davies-Bouldin Index for our Manhattan distance clustering:
+db_index_manhattan <- index.DB(filtered_data, kmeans_res_manhattan$cluster, d = dist_matrix_manhattan, centrotypes = "medoids")
+
+# Print Index for both distances:
+print(paste("Davies-Bouldin Index (Euclidean):", db_index_euclidean$DB))
+print(paste("Davies-Bouldin Index (Manhattan):", db_index_manhattan$DB))
 ```
 
 ***Cluster Validation Metrics***

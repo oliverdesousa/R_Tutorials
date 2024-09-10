@@ -1,0 +1,219 @@
+---
+title:
+author: "Stefano Cacciatore"
+output: 
+  html_document:
+  toc: true
+  toc_depth: 2
+  theme: united
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+---
+
+# miRseq Analysis:
+
+**Analysing miRseq Gene Expression Data from a Colerectal Adenocarcinoma Cohort:**
+
+```{r, message=FALSE}
+# install.packages("readxl")
+# install.packages("readxl")
+library(readxl)
+library(KODAMA)
+library(knitr)
+```
+
+***Prepare Clinical Data:***
+
+```{r}
+# Read in Clinical Data:
+coad=read.csv("data/COADREAD.clin.merged.picked.txt",sep="\t",check.names = FALSE)
+
+# Set the first column as row names
+rownames(coad) = coad[,1]
+# Remove the first column as it is now used as row names
+coad = coad[,-1]  
+coad <- as.data.frame(coad) 
+
+# Clean column names: replace dots with dashes & convert to uppercase
+colnames(coad) = gsub("\\.", "-", toupper(colnames(coad)))
+
+ # Transpose the dataframe so that rows become columns and vice versa
+coad = t(coad) 
+```
+
+***Prepare miRNA-seq expression data:***
+
+```{r}
+# Read RNA-seq expression data:
+r = read.csv("data/COADREAD.rnaseqv2__illuminahiseq_rnaseqv2__unc_edu__Level_3__RSEM_genes_normalized__data.data.txt", sep = "\t", check.names = FALSE, row.names = 1)
+
+# Remove the first row:
+r = r[-1,]
+
+# Convert expression data to numeric matrix format
+temp = matrix(as.numeric(as.matrix(r)), ncol=ncol(r))
+
+# Assign original column names to the matrix
+colnames(temp) = colnames(r)  
+# Assign original row names to the matrix
+rownames(temp) = rownames(r)  
+RNA = temp  
+
+# Transpose the matrix so that genes are rows and samples are columns
+RNA = t(RNA)  
+
+```
+
+***Extract patient and tissue information from column names:***
+
+```{r}
+
+tcgaID = list()
+ # Extract sample ID
+tcgaID$sample.ID <- substr(colnames(r), 1, 16)
+# Extract patient ID
+tcgaID$patient <- substr(colnames(r), 1, 12)  
+# Extract tissue type
+tcgaID$tissue <- substr(colnames(r), 14, 16)  
+
+tcgaID = as.data.frame(tcgaID)  
+```
+
+***Select Primary Solid Tumor tissue data ("01A"):***
+
+```{r}
+tcgaID.sel = tcgaID[tcgaID$tissue == "01A", ]
+
+# Subset the RNA expression data to match selected samples
+RNA.sel = RNA[tcgaID$tissue == "01A", ]
+```
+
+***Intersect patient IDs between clinical and RNA data:***
+
+```{r}
+sel = intersect(tcgaID.sel$patient, rownames(coad))
+# Subset the clinical data to include only selected patients:
+coad.sel = coad[sel, ]
+# Assign patient IDs as row names to the RNA data:
+rownames(RNA.sel) = tcgaID.sel$patient
+# Subset the RNA data to include only selected patients
+RNA.sel = RNA.sel[sel, ]
+```
+
+***Prepare labels for pathology stages:***
+
+- Classify stages `t1`, `t2`, & `t3` as "low"
+
+- Classify stages `t4`, `t4a`, & `t4b` as "high"
+
+- Convert any `tis` stages to `NA`
+
+```{r}
+
+labels = coad.sel[, "pathology_T_stage"]
+
+labels[labels %in% c("t1", "t2", "t3")] = "low"
+
+labels[labels %in% c("t4", "t4a", "t4b")] = "high"
+
+labels[labels == "tis"] = NA
+```
+
+***Log Transform the expression data for our selected gene `CXCL2`:***
+
+```{r}
+CXCL2 <- log(1 + RNA.sel[, "CXCL2|2920"])
+```
+
+***Boxplot to visualize the distribution of log transformed gene expression by pathology stage:***
+
+```{r}
+boxplot(CXCL2 ~ labels, main = "Expression of CXCL2 by Pathology Stage",
+        xlab = "Pathology Stage",
+        ylab = "Log Transformed Expression",
+        col = c("lightyellow", "sandybrown")) 
+```
+
+***Perform Wilcoxon rank-sum test to compare gene expression between "low" and "high" stages:***
+
+```{r}
+CXCL2_W <- wilcox.test(CXCL2 ~ labels)
+CXCL2_W
+```
+
+***Now, we log transform expression data for three other genes:*** 
+
+```{r}
+CXCL3 <- log(1 + RNA.sel[, "CXCL3|2921"])
+GPX2 <- log(1 + RNA.sel[, "GPX2|2877"])
+LCN2 <- log(1 + RNA.sel[, "LCN2|3934"])
+```
+
+***Visualize the log transformed gene expression by pathology stage for all four genes:***
+
+```{r}
+par(mfrow = c(1, 4))
+ylim_range <- c(2, 12)
+
+# CXCL2 boxplot:
+boxplot(CXCL2 ~ labels, main = "CXCL2",
+        xlab = "Pathology Stage",
+        ylab = "Log Transformed Expression",
+        col = c("lightyellow", "sandybrown"),
+        ylim = ylim_range) 
+
+# GPX2 boxplot:
+boxplot(GPX2~ labels, 
+        main = "GPX2",
+        xlab = "Pathology Stage",
+        ylab = "Log Transformed Expression",
+        col = c("lightblue", "lightcoral"),
+        ylim = ylim_range)  # Specify colors for each box
+
+# CXCL3 boxplot:
+boxplot(CXCL3 ~ labels, 
+        main = "CXCL3",
+        xlab = "Pathology Stage",
+        ylab = "Log Transformed Expression",
+        col = c("lightgreen", "lightgoldenrod"),
+        ylim = ylim_range)  # Specify colors for each box
+
+# LCN2 boxplot:
+boxplot(LCN2 ~ labels, 
+        main = "LCN2",
+        xlab = "Pathology Stage",
+        ylab = "Log Transformed Expression",
+        col = c("lightpink", "lightsteelblue"),
+        ylim = ylim_range)  # Specify colors for each box
+
+par(mfrow = c(1, 1))
+```
+
+***Perform Wilcoxon rank-sum test to compare gene expression between "low" and "high" stages for the three new genes:***
+
+```{r}
+# LCN2 Gene:
+LCN2_W <- wilcox.test(LCN2~ labels)
+# CXCL3 Gene:
+CXCL3_W <- wilcox.test(CXCL3 ~ labels)
+# GPX2 Gene:
+GPX2_W <- wilcox.test(GPX2 ~ labels)
+```
+
+***Now lets compare their output from the Wilcoxon rank-sum test:***
+
+```{r}
+results <- data.frame(
+  Gene = c("LCN2", "CXCL3", "GPX2", "CXCL2"),
+  Test_Statistic = c(LCN2_W$statistic, CXCL3_W$statistic, GPX2_W$statistic, CXCL2_W$statistic),
+  P_Value = c(LCN2_W$p.value, CXCL3_W$p.value, GPX2_W$p.value, CXCL2_W$p.value),
+  stringsAsFactors = FALSE
+)
+
+kable(results, digits = 4)
+```
+
+***Interpretation:***
+
+- CXCL2 (0.0007) and CXCL3 (0.0002) showed significant differences in gene expression between high and low pathology stages, with p-values < 0.05. 
+
+- This result suggests that these genes could be important in distinguishing between different stages of the disease and warrants further investigation into their roles and potential as biomarkers or therapeutic targets.

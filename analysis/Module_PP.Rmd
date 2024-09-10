@@ -210,4 +210,130 @@ filtered_data <- mtcars[, feature_variances > threshold]
 str(filtered_data)
 ```
 
+# Hypothesis Testing:
+
+## 1. T-Test:
+
+A T-test is used to determine if there is a significant difference between the means of two groups. It is typically used when comparing the means of two groups to see if they are statistically different from each other.
+
+*When to use?*
+
+- When comparing the means of two independent groups (Independent T-test).
+
+- When comparing the means of two related groups or paired samples (Paired T-test).
+
+```{r}
+# Example Data
+method_A <- c(85, 88, 90, 92, 87)
+method_B <- c(78, 82, 80, 85, 79)
+
+# Perform T-test
+t_test_result <- t.test(method_A, method_B)
+
+# Print results
+print(t_test_result)
+
+```
+
+*Interpretation:* `p-value < 0.05` = there is a significant difference between the paired samples.
+
+## 2. ANOVA:
+
+ANOVA is used to determine if there are any statistically significant differences between the means of three or more independent groups.
+
+*When to use?*
+
+- When comparing means among three or more groups.
+
+```{r}
+# Example Data
+scores <- data.frame(
+  score = c(85, 88, 90, 92, 87, 78, 82, 80, 85, 79, 95, 97, 92, 91, 96),
+  method = factor(rep(c("A", "B", "C"), each = 5))
+)
+
+# Perform ANOVA
+anova_result <- aov(score ~ method, data = scores)
+
+# Print summary of results
+summary(anova_result)
+
+```
+
+*Interpretation:* `p-value < 0.05` = there is a significant difference between the group means. 
+
+- Post-hoc tests (e.g., Tukey’s HSD) can be used to determine which specific groups differ.
+
+## 3. Shapiro-Wilk Test for Normality:
+
+The Shapiro-Wilk test assesses whether a sample comes from a normally distributed population. It is particularly useful for checking the normality assumption in parametric tests like the T-test and ANOVA.
+
+*When to use?*
+
+- When you need to check if your data is normally distributed before performing parametric tests.
+
+- To validate the assumptions of normality for statistical tests that assume data is normally distributed.
+
+```{r}
+# Example Data
+sample_data <- c(5.2, 6.1, 5.8, 7.2, 6.5, 5.9, 6.8, 6.0, 6.7, 5.7)
+
+# Perform Shapiro-Wilk test
+shapiro_test_result <- shapiro.test(sample_data)
+
+# Print results
+print(shapiro_test_result)
+```
+
+*Interpretation:* The Shapiro-Wilk test returns a p-value that indicates whether the sample deviates from a normal distribution.
+
+- p-value > 0.05: Fail to reject the null hypothesis; data is not significantly different from a normal distribution.
+
+- p-value ≤ 0.05: Reject the null hypothesis; data significantly deviates from a normal distribution.
+
+## 4. Chi-Squared Test:
+
+The Chi-squared test is used to determine if there is a significant association between two categorical variables.
+
+*When to use?*
+
+- When testing the independence of two categorical variables in a contingency table.
+
+```{r}
+# Example Data
+study_method <- matrix(c(20, 15, 30, 25), nrow = 2, byrow = TRUE)
+rownames(study_method) <- c("Passed", "Failed")
+colnames(study_method) <- c("Method A", "Method B")
+
+# Perform Chi-squared test
+chi_sq_result <- chisq.test(study_method)
+
+# Print results
+print(chi_sq_result)
+```
+
+*Interpretation:* `p-value < 0.05` there is a significant association between the study method and the passing rate.
+
+## 5. Wilcoxon Signed-Rank Test:
+
+The Wilcoxon Signed-Rank Test is a non-parametric test used to compare two related samples or paired observations to determine if their population mean ranks differ.
+
+*When to use?*
+
+- When the data is paired and does not meet the assumptions required for a T-test (e.g., non-normality).
+
+```{r}
+# Example Data
+before <- c(5, 7, 8, 6, 9)
+after <- c(6, 8, 7, 7, 10)
+
+# Perform Wilcoxon Signed-Rank Test
+wilcox_test_result <- wilcox.test(before, after, paired = TRUE)
+
+# Print results
+print(wilcox_test_result)
+```
+
+*Interpretation:* `p-value < 0.05` = there is a significant difference between the paired samples.
+
 #### **Now your data is ready for downstream analyses!**

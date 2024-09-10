@@ -3,25 +3,36 @@ output_dir: ../docs
 navbar:
   title: "R Tutorial"
   left:
-  - text: Home
-    href: index.html
-  - text: About
-    href: about.html
-  - text: License
-    href: license.html
-  - text: Basics
-    href: Module_1_Basics.html
-  - text: Data Pre-processing
-    href: Module_PP.html
-  - text: Visualisation
-    href: Module_2_Visualisation.html
-  - text: Supervised Learning
-    href: supervised_learning.html
-  - text: Unsupervised Learning
-    href: Module_5_Unsupervised_Learning.html
+    - text: "Home"
+      href: "index.html"
+    - text: "About"
+      href: "about.html"
+    - text: "Module 1"
+      menu:
+      - text: "Basics"
+        href: "Module_1_Basics.html"
+      - text: "Data Pre-processing"
+        href: "Module_PP.html"
+      - text: "Visualisation"
+        href: "Module_2_Visualisation.html"
+    - text: "Module 2"
+      menu:
+      - text: "Supervised Learning"
+        href: "supervised_learning_final.html"
+      - text: "Unsupervised Learning"
+        href: "Module_5_Unsupervised_Learning.html"
+    - text: "miRseq Analysis"
+      href: "EXAMPLE.html"
+    - text: "License"
+      href: "license.html"
+  right:
+    - icon: "fab fa-github"
+      text: "Source code"
+      href: https://github.com/oliverdesousa/R_Tutorials
 output:
   workflowr::wflow_html:
     toc: yes
     toc_float: yes
     theme: united
     highlight: textmate
+

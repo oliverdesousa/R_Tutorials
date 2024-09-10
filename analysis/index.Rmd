@@ -3,8 +3,8 @@ title: "Data Analysis in R"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
-    toc: false
     # Adding extra options
+    toc: false
     theme: united  # Optional: You can specify a theme for your site
 editor_options:
   chunk_output_type: console
