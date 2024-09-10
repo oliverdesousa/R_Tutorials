@@ -557,15 +557,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomoliverdesousaRTutorialstree5e763e569280fdcdc25e4ce571fef187a1e57d70targetblank5e763e5a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomoliverdesousaRTutorialstree166be7f992624b8187dc6f5d44da60b231775746targetblank166be7fa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/oliverdesousa/R_Tutorials/tree/5e763e569280fdcdc25e4ce571fef187a1e57d70" target="_blank">5e763e5</a>
+<a href="https://github.com/oliverdesousa/R_Tutorials/tree/166be7f992624b8187dc6f5d44da60b231775746" target="_blank">166be7f</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomoliverdesousaRTutorialstree5e763e569280fdcdc25e4ce571fef187a1e57d70targetblank5e763e5a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomoliverdesousaRTutorialstree166be7f992624b8187dc6f5d44da60b231775746targetblank166be7fa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -575,7 +575,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/oliverdesousa/R_Tutorials/tree/5e763e569280fdcdc25e4ce571fef187a1e57d70" target="_blank">5e763e5</a>.
+<a href="https://github.com/oliverdesousa/R_Tutorials/tree/166be7f992624b8187dc6f5d44da60b231775746" target="_blank">166be7f</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -652,6 +652,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/oliverdesousa/R_Tutorials/c3ff74c4260de8034bc0bbfe74d2920c3ad8ea52/docs/supervised_learning_final.html" target="_blank">c3ff74c</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -821,6 +838,43 @@ ggplot(combinedData, aes(x = tumor_size, y = patient_survival, color = dataset, 
          shape = guide_legend(title = &quot;Dataset&quot;))</code></pre>
 <pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
 <p><img src="figure/supervised_learning_final.Rmd/linear_visual-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-linear_visual-1">
+Past versions of linear_visual-1.png
+</button>
+</p>
+<div id="fig-linear_visual-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/c3ff74c4260de8034bc0bbfe74d2920c3ad8ea52/docs/figure/supervised_learning_final.Rmd/linear_visual-1.png" target="_blank">c3ff74c</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="multivariate-linear-regression" class="section level3">
@@ -1058,6 +1112,43 @@ ggplot(data = conf_matrix_df, aes(x = Reference, y = Prediction, fill = Freq)) +
   theme_minimal() +
   labs(title = &quot;Confusion Matrix&quot;, x = &quot;Actual&quot;, y = &quot;Predicted&quot;)</code></pre>
 <p><img src="figure/supervised_learning_final.Rmd/PLOT_CONF-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-PLOT_CONF-1">
+Past versions of PLOT_CONF-1.png
+</button>
+</p>
+<div id="fig-PLOT_CONF-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/c3ff74c4260de8034bc0bbfe74d2920c3ad8ea52/docs/figure/supervised_learning_final.Rmd/PLOT_CONF-1.png" target="_blank">c3ff74c</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <ul>
 <li><strong><em>Sensitivity:</em></strong> The “true positive rate” –
 the measure of how well the model correctly predicted positive
@@ -1101,6 +1192,43 @@ roc_curve &lt;- roc(test_data$IsSetosa, test_predictions)
 # Plot ROC curve
 plot(roc_curve, main = &quot;ROC Curve&quot;, col = &quot;blue&quot;, lwd = 2)</code></pre>
 <p><img src="figure/supervised_learning_final.Rmd/ROC-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ROC-1">
+Past versions of ROC-1.png
+</button>
+</p>
+<div id="fig-ROC-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/c3ff74c4260de8034bc0bbfe74d2920c3ad8ea52/docs/figure/supervised_learning_final.Rmd/ROC-1.png" target="_blank">c3ff74c</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Compute AUC
 auc_value &lt;- auc(roc_curve)
 print(paste(&quot;AUC: &quot;, round(auc_value, 4)))</code></pre>
@@ -1173,6 +1301,43 @@ data(iris)</code></pre>
 <h4>Step 3: Plotting the decision tree</h4>
 <pre class="r"><code>rpart.plot(model_tree, main = &quot;Decision Tree for Iris Dataset&quot;)</code></pre>
 <p><img src="figure/supervised_learning_final.Rmd/tree_plot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-tree_plot-1">
+Past versions of tree_plot-1.png
+</button>
+</p>
+<div id="fig-tree_plot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/c3ff74c4260de8034bc0bbfe74d2920c3ad8ea52/docs/figure/supervised_learning_final.Rmd/tree_plot-1.png" target="_blank">c3ff74c</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="step-4-making-predictions-and-model-evaluation"
 class="section level4">
@@ -1346,6 +1511,43 @@ class=as.numeric(as.factor(MetRef$gender))
 cc=pca(u)
 plot(cc$x,pch=21,bg=class)</code></pre>
 <p><img src="figure/supervised_learning_final.Rmd/normalisation-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-normalisation-1">
+Past versions of normalisation-1.png
+</button>
+</p>
+<div id="fig-normalisation-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/c3ff74c4260de8034bc0bbfe74d2920c3ad8ea52/docs/figure/supervised_learning_final.Rmd/normalisation-1.png" target="_blank">c3ff74c</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="scaling-and-standardisation" class="section level3">
 <h3>Scaling and Standardisation</h3>
@@ -1372,6 +1574,43 @@ class=as.numeric(as.factor(MetRef$gender))
 cc=pca(u)
 plot(cc$x,pch=21,bg=class,xlab=cc$txt[1],ylab=cc$txt[2])</code></pre>
 <p><img src="figure/supervised_learning_final.Rmd/scaling-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-scaling-1">
+Past versions of scaling-1.png
+</button>
+</p>
+<div id="fig-scaling-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/c3ff74c4260de8034bc0bbfe74d2920c3ad8ea52/docs/figure/supervised_learning_final.Rmd/scaling-1.png" target="_blank">c3ff74c</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>We can combine both normalisation and scaling to see the difference
 in the output</p>
 <pre class="r"><code>library(KODAMA)
@@ -1384,6 +1623,43 @@ class=as.numeric(as.factor(MetRef$gender))
 cc=pca(u)
 plot(cc$x,pch=21,bg=class,xlab=cc$txt[1],ylab=cc$txt[2])</code></pre>
 <p><img src="figure/supervised_learning_final.Rmd/both-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-both-1">
+Past versions of both-1.png
+</button>
+</p>
+<div id="fig-both-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/c3ff74c4260de8034bc0bbfe74d2920c3ad8ea52/docs/figure/supervised_learning_final.Rmd/both-1.png" target="_blank">c3ff74c</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
