@@ -8,30 +8,34 @@ editor_options:
   chunk_output_type: console
 ---
 
-## This R tutorial provides a comprehensive guide to various R programming techniques and data science methods.
+This R tutorial provides a comprehensive guide to various R programming techniques and data science methods.
 
-#### **M1 Basics:** 
+### **Module 1:** Introduction
 
-Introduces the RStudio interface, basic R operations, functions, package installation, data importing, indexing, and essential data manipulation skills.
+***Basics:***
 
-#### **M2 Data Preprocessing:** 
+-   Introduces the RStudio interface, basic R operations, functions, package installation, data importing, indexing, and essential data manipulation skills.
 
-Covers key steps like data collection, cleaning, transformation, and reduction to prepare datasets for analysis.
+***Data Preprocessing:***
 
-#### **M3 Visualisation:** 
+-   Covers key steps like data collection, cleaning, transformation, and reduction to prepare datasets for analysis.
 
-Demonstrates how to create scatter plots, box plots, heatmaps, survival plots, and pie charts for effective data visualization.
+***Visualisation:***
 
-#### **M4 Supervised Learning:** 
+-   Demonstrates how to create scatter plots, box plots, heatmaps, survival plots, and pie charts for effective data visualization.
 
-Explains regression, classification, cross-validation, and feature transformation techniques for predictive modeling.
+### **Module 2:** Machine Learning
 
-#### **M5 Unsupervised Learning:**  
+***Supervised Learning:***
 
-Explores clustering methods, including K-means, hierarchical, probabilistic, and DBSCAN, for identifying patterns in data without labels.
+-   Explains regression, classification, cross-validation, and feature transformation techniques for predictive modeling.
 
-#### **miRseq Analysis Tutorial:**
+***Unsupervised Learning:***
 
-Using what we have learnt from this tutorial we present an example analysis one could perform from a biological perspective. In this case study we investigate the differences in gene expression within a  Colerectal Adenocarcinoma cohort.
+-   Explores clustering methods, including K-means, hierarchical, probabilistic, and DBSCAN, for identifying patterns in data without labels.
+
+### **miRseq Analysis Tutorial:**
+
+Using what we have learnt from this tutorial we present an example analysis one could perform from a biological perspective. In this case study we investigate the differences in gene expression within a Colerectal Adenocarcinoma cohort.
 
 Gene expression of four genes (`LCN2`, `CXCL3`, `GPX2`, & `CXCL2`) were analysed within primary Colerectal Adenocarcinoma tissue samples from patients (`01A`).
