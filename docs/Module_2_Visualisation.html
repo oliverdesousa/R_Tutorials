@@ -11,9 +11,9 @@
 
 <meta name="author" content="Stefano Cacciatore" />
 
-<meta name="date" content="2024-09-06" />
+<meta name="date" content="2024-09-10" />
 
-<title>Module 2: Visualisation</title>
+<title>Module 3: Visualisation</title>
 
 <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -37,6 +37,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -336,24 +338,54 @@ div.tocify {
 <li>
   <a href="about.html">About</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Module 1
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_1_Basics.html">Basics</a>
+    </li>
+    <li>
+      <a href="Module_PP.html">Data Pre-processing</a>
+    </li>
+    <li>
+      <a href="Module_2_Visualisation.html">Visualisation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Module 2
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="supervised_learning_final.html">Supervised Learning</a>
+    </li>
+    <li>
+      <a href="Module_5_Unsupervised_Learning.html">Unsupervised Learning</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="EXAMPLE.html">miRseq Analysis</a>
+</li>
 <li>
   <a href="license.html">License</a>
 </li>
-<li>
-  <a href="Module_1_Basics.html">Basics</a>
-</li>
-<li>
-  <a href="Module_2_Visualisation.html">Visualisation</a>
-</li>
-<li>
-  <a href="Module_PP.html">Data Pre-processing</a>
-</li>
-<li>
-  <a href="Module_5_Unsupervised_Learning.html">Unsupervised Learning</a>
-</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/oliverdesousa/R_Tutorials">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -363,9 +395,9 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Module 2: Visualisation</h1>
+<h1 class="title toc-ignore">Module 3: Visualisation</h1>
 <h4 class="author">Stefano Cacciatore</h4>
-<h4 class="date">September 06, 2024</h4>
+<h4 class="date">September 10, 2024</h4>
 
 </div>
 
@@ -394,7 +426,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-09-06
+<strong>Last updated:</strong> 2024-09-10
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -403,7 +435,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 aria-hidden="true"></span> 0
 </p>
 <p>
-<strong>Knit directory:</strong> <code>myproject/</code> <span
+<strong>Knit directory:</strong> <code>My_Project/</code> <span
 class="glyphicon glyphicon-question-sign" aria-hidden="true"
 title="This is the local directory in which the code in this file was executed.">
 </span>
@@ -525,15 +557,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomoliverdesousaProjecttree9cfbfa109d39a69a8dfca94e810e9da19f3cd663targetblank9cfbfa1a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomoliverdesousaRTutorialstree5e763e569280fdcdc25e4ce571fef187a1e57d70targetblank5e763e5a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/oliverdesousa/Project/tree/9cfbfa109d39a69a8dfca94e810e9da19f3cd663" target="_blank">9cfbfa1</a>
+<a href="https://github.com/oliverdesousa/R_Tutorials/tree/5e763e569280fdcdc25e4ce571fef187a1e57d70" target="_blank">5e763e5</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomoliverdesousaProjecttree9cfbfa109d39a69a8dfca94e810e9da19f3cd663targetblank9cfbfa1a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomoliverdesousaRTutorialstree5e763e569280fdcdc25e4ce571fef187a1e57d70targetblank5e763e5a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -543,7 +575,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/oliverdesousa/Project/tree/9cfbfa109d39a69a8dfca94e810e9da19f3cd663" target="_blank">9cfbfa1</a>.
+<a href="https://github.com/oliverdesousa/R_Tutorials/tree/5e763e569280fdcdc25e4ce571fef187a1e57d70" target="_blank">5e763e5</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -558,111 +590,21 @@ were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    .BidstackAds-b51a10b9/
-    Ignored:    .RData
     Ignored:    .Rhistory
-    Ignored:    .Trash/
-    Ignored:    .android/
-    Ignored:    Templates/
-    Ignored:    Untitled Folder/
-    Ignored:    ilifu/
-    Ignored:    sql/
+    Ignored:    .Rproj.user/
 
 Untracked files:
-    Untracked:   ⁨Library/
-    Untracked:  .AliView/
-    Untracked:  .CFUserTextEncoding
-    Untracked:  .DS_Store
-    Untracked:  .IdentityService/
-    Untracked:  .R/
-    Untracked:  .RDataTmp
     Untracked:  .Rapp.history
-    Untracked:  .ServiceHub/
-    Untracked:  .Xauthority
-    Untracked:  .anaconda/
-    Untracked:  .anyconnect
-    Untracked:  .aspnet/
-    Untracked:  .azcopy/
-    Untracked:  .bash_history
-    Untracked:  .bash_profile
-    Untracked:  .bashrc
-    Untracked:  .bidstack-device-id
-    Untracked:  .cache/
-    Untracked:  .cisco/
-    Untracked:  .conda/
-    Untracked:  .condarc
-    Untracked:  .config/
-    Untracked:  .continuum/
-    Untracked:  .cups/
-    Untracked:  .docker/
-    Untracked:  .dotnet/
-    Untracked:  .dropbox/
-    Untracked:  .gitconfig
     Untracked:  .gitignore
-    Untracked:  .globusonline/
-    Untracked:  .gsutil/
-    Untracked:  .idlerc/
-    Untracked:  .ipynb_checkpoints/
-    Untracked:  .ipython/
-    Untracked:  .jupyter/
-    Untracked:  .keras/
-    Untracked:  .lesshst
-    Untracked:  .local/
-    Untracked:  .matplotlib/
-    Untracked:  .mono/
-    Untracked:  .nuget/
-    Untracked:  .nuuid.ini
-    Untracked:  .oracle_jre_usage/
-    Untracked:  .pdfbox.cache
-    Untracked:  .python_history
-    Untracked:  .sqlite_history
-    Untracked:  .ssh/
-    Untracked:  .tcshrc
-    Untracked:  .templateengine/
-    Untracked:  .test.txt.swp
-    Untracked:  .viminfo
-    Untracked:  .vscode/
-    Untracked:  .wget-hsts
-    Untracked:  .wine/
-    Untracked:  .wing101-9
-    Untracked:  .xonshrc
-    Untracked:  .zprofile
-    Untracked:  .zprofile.pysave
-    Untracked:  .zsh_history
-    Untracked:  .zsh_sessions/
-    Untracked:  .zshrc
-    Untracked:  Applications (Parallels)/
-    Untracked:  Applications/
-    Untracked:  Chunk.R
-    Untracked:  Desktop/
-    Untracked:  Documents/
-    Untracked:  Downloads/
-    Untracked:  Dropbox/
-    Untracked:  Library/
-    Untracked:  Movies/
-    Untracked:  Music/
-    Untracked:  Parallels/
-    Untracked:  Pedigree.R
-    Untracked:  Pictures/
-    Untracked:  PlayOnMac's virtual drives
-    Untracked:  Projects/
-    Untracked:  Public/
-    Untracked:  Untitled.ipynb
-    Untracked:  _TyranoGameData/
-    Untracked:  anaconda3/
-    Untracked:  annotation/
-    Untracked:  bcftools-1.9.tar.bz2
-    Untracked:  bcftools-1.9/
-    Untracked:  clumping_EX.txt
-    Untracked:  df.csv
-    Untracked:  df_R_tut.csv
-    Untracked:  eval "$(ssh-agent -s)"
-    Untracked:  eval "$(ssh-agent -s)".pub
-    Untracked:  gfortran-4.8.2-darwin13.tar.bz2
-    Untracked:  gnomad.genomes.v3.1.1.sites.chr1.vcf.bgz
-    Untracked:  myenv/
-    Untracked:  text.txt
-    Untracked:  venv/
+    Untracked:  Stats.Rmd
+    Untracked:  Stats.html
+    Untracked:  data/.DS_Store
+    Untracked:  data/COADREAD.clin.merged.picked.txt
+    Untracked:  data/COADREAD.rnaseqv2__illuminahiseq_rnaseqv2__unc_edu__Level_3__RSEM_genes_normalized__data.data.txt
+
+Unstaged changes:
+    Modified:   .DS_Store
+    Deleted:    myproject.zip
 
 </code></pre>
 <p>
@@ -677,10 +619,75 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/Module_2_Visualisation.Rmd</code>) and HTML
+(<code>docs/Module_2_Visualisation.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/b77ee0a848cc222d84e66c94b978ccd7afd85d16/analysis/Module_2_Visualisation.Rmd" target="_blank">b77ee0a</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-06
+</td>
+<td>
+Files
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/oliverdesousa/R_Tutorials/b77ee0a848cc222d84e66c94b978ccd7afd85d16/docs/Module_2_Visualisation.html" target="_blank">b77ee0a</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-06
+</td>
+<td>
+Files
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -750,6 +757,43 @@ ggplot(starwars_QC1, aes(x = height, y = mass)) +
   labs(title = &quot;Relationship between Mass and Height&quot;, x = &quot;Height(cm)&quot;, y = &quot;Mass(kg)&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/Module_2_Visualisation.Rmd/scatter-plot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-scatter-plot-1">
+Past versions of scatter-plot-1.png
+</button>
+</p>
+<div id="fig-scatter-plot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/b77ee0a848cc222d84e66c94b978ccd7afd85d16/docs/figure/Module_2_Visualisation.Rmd/scatter-plot-1.png" target="_blank">b77ee0a</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="correlation-coefficient." class="section level4">
 <h4>Correlation coefficient.</h4>
 <p>The correlation between 2 variables is found with the
@@ -797,10 +841,84 @@ F-statistic: 72.38 on 1 and 56 DF,  p-value: 1.138e-11</code></pre>
   theme_minimal()</code></pre>
 <pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
 <p><img src="figure/Module_2_Visualisation.Rmd/regression_plot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-regression_plot-1">
+Past versions of regression_plot-1.png
+</button>
+</p>
+<div id="fig-regression_plot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/b77ee0a848cc222d84e66c94b978ccd7afd85d16/docs/figure/Module_2_Visualisation.Rmd/regression_plot-1.png" target="_blank">b77ee0a</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Regression diagnostics
 par(mfrow = c(2, 2))  # Set up plotting area for 4 plots
 plot(model)</code></pre>
 <p><img src="figure/Module_2_Visualisation.Rmd/regresion_diagnostics-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-regresion_diagnostics-1">
+Past versions of regresion_diagnostics-1.png
+</button>
+</p>
+<div id="fig-regresion_diagnostics-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/b77ee0a848cc222d84e66c94b978ccd7afd85d16/docs/figure/Module_2_Visualisation.Rmd/regresion_diagnostics-1.png" target="_blank">b77ee0a</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="box-plots" class="section level2">
@@ -829,8 +947,45 @@ dataset</p>
        x = &quot;Species&quot;,
        y = &quot;Sepal Length (cm)&quot;) +
   theme_minimal()</code></pre>
-<p><img src="figure/Module_2_Visualisation.Rmd/simple_boxplot-1.png" width="672" style="display: block; margin: auto;" />
-We can compare the species list</p>
+<p><img src="figure/Module_2_Visualisation.Rmd/simple_boxplot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-simple_boxplot-1">
+Past versions of simple_boxplot-1.png
+</button>
+</p>
+<div id="fig-simple_boxplot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/b77ee0a848cc222d84e66c94b978ccd7afd85d16/docs/figure/Module_2_Visualisation.Rmd/simple_boxplot-1.png" target="_blank">b77ee0a</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We can compare the species list</p>
 <pre class="r"><code>#install.packages(&quot;ggpubr&quot;)
 library(ggpubr)
 library(ggplot2)
@@ -858,6 +1013,43 @@ ggboxplot(df, x = &quot;Species&quot;, y = &quot;Sepal.Length&quot;, width = 0.8
                      label.y = c(8.5, 9.2, 8.7)) +  # Manually adjust the position of significance labels
   theme(legend.position = &quot;none&quot;, plot.margin = unit(c(2, 1, 1, 1), &quot;cm&quot;))</code></pre>
 <p><img src="figure/Module_2_Visualisation.Rmd/ggboxplot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ggboxplot-1">
+Past versions of ggboxplot-1.png
+</button>
+</p>
+<div id="fig-ggboxplot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/b77ee0a848cc222d84e66c94b978ccd7afd85d16/docs/figure/Module_2_Visualisation.Rmd/ggboxplot-1.png" target="_blank">b77ee0a</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="heatmaps" class="section level2">
 <h2>3. Heatmaps</h2>
@@ -884,9 +1076,46 @@ data analysis)</p></li>
 df &lt;- scale(mtcars)
 # Default plot
 heatmap(df, scale = &quot;none&quot;)</code></pre>
-<p><img src="figure/Module_2_Visualisation.Rmd/heatmap-1.png" width="672" style="display: block; margin: auto;" />
-We can customise by using the <code>RColorBrewer</code> color palette to
-change the appearance. The arguments <code>RowSideColors</code> and
+<p><img src="figure/Module_2_Visualisation.Rmd/heatmap-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-heatmap-1">
+Past versions of heatmap-1.png
+</button>
+</p>
+<div id="fig-heatmap-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/b77ee0a848cc222d84e66c94b978ccd7afd85d16/docs/figure/Module_2_Visualisation.Rmd/heatmap-1.png" target="_blank">b77ee0a</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We can customise by using the <code>RColorBrewer</code> color palette
+to change the appearance. The arguments <code>RowSideColors</code> and
 <code>ColSideColors</code> are used to annotate rows and columns
 respectively.</p>
 <pre class="r"><code>library(&quot;RColorBrewer&quot;)
@@ -895,6 +1124,43 @@ heatmap(df, scale = &quot;none&quot;, col =  col,
         RowSideColors = rep(c(&quot;blue&quot;, &quot;pink&quot;), each = 16),
         ColSideColors = c(rep(&quot;purple&quot;, 5), rep(&quot;orange&quot;, 6)))</code></pre>
 <p><img src="figure/Module_2_Visualisation.Rmd/heatmap_custom-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-heatmap_custom-1">
+Past versions of heatmap_custom-1.png
+</button>
+</p>
+<div id="fig-heatmap_custom-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/b77ee0a848cc222d84e66c94b978ccd7afd85d16/docs/figure/Module_2_Visualisation.Rmd/heatmap_custom-1.png" target="_blank">b77ee0a</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="survival-plots" class="section level2">
 <h2>4. Survival plots</h2>
@@ -912,8 +1178,12 @@ patients?</p></li>
 </ul>
 <pre class="r"><code>#install.packages(&#39;survminer&#39;)
 BiocManager::install(&quot;RTCGA.clinical&quot;) # data for examples</code></pre>
+<pre><code>&#39;getOption(&quot;repos&quot;)&#39; replaces Bioconductor standard repositories, see
+&#39;help(&quot;repositories&quot;, package = &quot;BiocManager&quot;)&#39; for details.
+Replacement repositories:
+    CRAN: https://cran.rstudio.com/</code></pre>
 <pre><code>Bioconductor version 3.19 (BiocManager 1.30.25), R 4.4.1 (2024-06-14)</code></pre>
-<pre><code>Old packages: &#39;reticulate&#39;, &#39;spatstat.univar&#39;</code></pre>
+<pre><code>Old packages: &#39;ggrepel&#39;, &#39;matrixStats&#39;, &#39;reticulate&#39;, &#39;spatstat.univar&#39;</code></pre>
 <pre class="r"><code>library(survminer)
 library(RTCGA.clinical)</code></pre>
 <pre><code>Loading required package: RTCGA</code></pre>
@@ -932,8 +1202,45 @@ Attaching package: &#39;survival&#39;</code></pre>
 
 # Visualize with survminer
 ggsurvplot(fit, data = BRCAOV.survInfo, risk.table = TRUE)</code></pre>
-<p><img src="figure/Module_2_Visualisation.Rmd/survival-1.png" width="672" style="display: block; margin: auto;" />
-The simple plot above shows an estimate of survival probability
+<p><img src="figure/Module_2_Visualisation.Rmd/survival-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-survival-1">
+Past versions of survival-1.png
+</button>
+</p>
+<div id="fig-survival-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/b77ee0a848cc222d84e66c94b978ccd7afd85d16/docs/figure/Module_2_Visualisation.Rmd/survival-1.png" target="_blank">b77ee0a</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The simple plot above shows an estimate of survival probability
 depending on days from cancer diagnostics grouped by cancer types.
 Additionally an informative risk set table which shows the number of
 patients that were under observation in the specific period of time.</p>
@@ -952,6 +1259,43 @@ specification of the parameters</p>
   risk.table.y.text = FALSE # show bars instead of names in text annotations in legend of risk table
 )</code></pre>
 <p><img src="figure/Module_2_Visualisation.Rmd/survival_plot_customised-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-survival_plot_customised-1">
+Past versions of survival_plot_customised-1.png
+</button>
+</p>
+<div id="fig-survival_plot_customised-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/b77ee0a848cc222d84e66c94b978ccd7afd85d16/docs/figure/Module_2_Visualisation.Rmd/survival_plot_customised-1.png" target="_blank">b77ee0a</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="pie-charts" class="section level2">
 <h2>5. Pie Charts:</h2>
@@ -974,6 +1318,43 @@ ggplot(x, aes(x = &quot;&quot;, y = Freq, fill = Var1)) +
   theme(legend.title = element_blank(),
         plot.title = element_text(hjust = 0.5, face = &quot;bold&quot;))</code></pre>
 <p><img src="figure/Module_2_Visualisation.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
+Past versions of unnamed-chunk-1-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/b77ee0a848cc222d84e66c94b978ccd7afd85d16/docs/figure/Module_2_Visualisation.Rmd/unnamed-chunk-1-1.png" target="_blank">b77ee0a</a>
+</td>
+<td>
+oliverdesousa
+</td>
+<td>
+2024-09-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1034,8 +1415,8 @@ loaded via a namespace (and not attached):
 [73] backports_1.5.0     gridtext_0.1.5      broom_1.0.6        
 [76] httpuv_1.6.15       bslib_0.8.0         Rcpp_1.0.13        
 [79] gridExtra_2.3       nlme_3.1-166        mgcv_1.9-1         
-[82] xfun_0.47           fs_1.6.4            zoo_1.8-12         
-[85] pkgconfig_2.0.3    </code></pre>
+[82] whisker_0.4.1       xfun_0.47           fs_1.6.4           
+[85] zoo_1.8-12          pkgconfig_2.0.3    </code></pre>
 </div>
 </div>
 </div>

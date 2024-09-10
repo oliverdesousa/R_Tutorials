@@ -13,7 +13,7 @@
 
 <meta name="date" content="2024-09-10" />
 
-<title>Module 1: Basics</title>
+<title>EXAMPLE.knit.md</title>
 
 <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -395,9 +395,6 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Module 1: Basics</h1>
-<h4 class="author">Stefano Cacciatore</h4>
-<h4 class="date">September 10, 2024</h4>
 
 </div>
 
@@ -622,11 +619,11 @@ have uncommitted changes.
 
 <p>
 These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/Module_1_Basics.Rmd</code>) and
-HTML (<code>docs/Module_1_Basics.html</code>) files. If you’ve
-configured a remote Git repository (see <code>?wflow_git_remote</code>),
-click on the hyperlinks in the table below to view the files as they
-were in that past version.
+made to the R Markdown (<code>analysis/EXAMPLE.Rmd</code>) and HTML
+(<code>docs/EXAMPLE.html</code>) files. If you’ve configured a remote
+Git repository (see <code>?wflow_git_remote</code>), click on the
+hyperlinks in the table below to view the files as they were in that
+past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -655,33 +652,16 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/oliverdesousa/R_Tutorials/blob/b77ee0a848cc222d84e66c94b978ccd7afd85d16/analysis/Module_1_Basics.Rmd" target="_blank">b77ee0a</a>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/5e763e569280fdcdc25e4ce571fef187a1e57d70/analysis/EXAMPLE.Rmd" target="_blank">5e763e5</a>
 </td>
 <td>
 oliverdesousa
 </td>
 <td>
-2024-09-06
+2024-09-10
 </td>
 <td>
-Files
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/oliverdesousa/R_Tutorials/b77ee0a848cc222d84e66c94b978ccd7afd85d16/docs/Module_1_Basics.html" target="_blank">b77ee0a</a>
-</td>
-<td>
-oliverdesousa
-</td>
-<td>
-2024-09-06
-</td>
-<td>
-Files
+Start my new project
 </td>
 </tr>
 </tbody>
@@ -691,290 +671,211 @@ Files
 </div>
 </div>
 </div>
-<div id="basics-in-r" class="section level1">
-<h1>Basics in R</h1>
-<blockquote>
-<p><strong><em>Open RStudio and take a few minutes to explore each pane
-and its functionality.</em></strong></p>
-</blockquote>
-<div id="familiarize-with-the-rstudio-interface" class="section level3">
-<h3>1. Familiarize with the RStudio Interface</h3>
-<p>In this section, we’ll get to know the RStudio interface and
-understand its different components:</p>
-<ul>
-<li><p><strong>Layout</strong>: The RStudio interface consists of
-several panes that help you manage your workflow efficiently.</p></li>
-<li><p><strong>Panes</strong>: These include the Source Pane, Console,
-Environment/History Pane, and the Files/Plots/Packages/Help/Viewer
-Pane.</p></li>
-<li><p><strong>Console</strong>: The Console is where you can directly
-execute R commands.</p></li>
-<li><p><strong>Script Editor</strong>: The Script Editor is used for
-writing and editing scripts, which can be executed in parts or as a
-whole.</p></li>
-<li><p><strong>Environment</strong>: The Environment Pane shows all the
-objects (data, functions, etc.) that you’ve created during your
-session.</p></li>
-</ul>
-</div>
-<div id="basic-r-operations" class="section level3">
-<h3>2. Basic R Operations</h3>
-<p><em>Let’s start by performing some basic operations in R:</em></p>
-<p><strong>Arithmetic:</strong></p>
-<ul>
-<li>addition, subtraction, multiplication, division etc.</li>
-</ul>
-<pre class="r"><code># Basic Arithmetic
-sum &lt;- 5 + 3 
-difference &lt;- 5 - 3
-product &lt;- 5 * 3
-quotient &lt;- 5 / 3
-exponent &lt;- 5 ^ 3
-modulus &lt;- 5 %% 3 # Remainder from division
-int_division &lt;-5 %/% 3 # Integer Division</code></pre>
-<p><strong>Variable Assignment:</strong></p>
-<ul>
-<li>You can assign values to variables for reuse.</li>
-</ul>
-<pre class="r"><code># Variable Assignment
-x &lt;- 10 
-y &lt;- 20
-z &lt;- x + y # x &amp; y are now saved in your environment for reuse</code></pre>
-<p><strong>Data Types:</strong> - Numeric, Character, Boolean, Integer,
-and Double</p>
-<pre class="r"><code># 6 = numeric
-# &quot;c&quot; = character
-# -5 = integer
-# TRUE = boolean</code></pre>
-<p><strong>Data Formats:</strong></p>
-<ul>
-<li><p>vectors,</p></li>
-<li><p>lists,</p></li>
-<li><p>data frames</p></li>
-</ul>
-<pre class="r"><code># Vectors = arrays of data elements each of the SAME TYPE.
-vec &lt;- c(1, 2, 3, 4, 5)
+<div id="mirseq-analysis" class="section level1">
+<h1>miRseq Analysis:</h1>
+<p><strong>Analysing miRseq Gene Expression Data from a Colerectal
+Adenocarcinoma Cohort:</strong></p>
+<pre class="r"><code># install.packages(&quot;readxl&quot;)
+# install.packages(&quot;readxl&quot;)
+library(readxl)
+library(KODAMA)
+library(knitr)</code></pre>
+<p><strong><em>Prepare Clinical Data:</em></strong></p>
+<pre class="r"><code># Read in Clinical Data:
+coad=read.csv(&quot;data/COADREAD.clin.merged.picked.txt&quot;,sep=&quot;\t&quot;,check.names = FALSE)
 
-# Lists = can contain many items that (can have different types of data like numbers characters and also could contain stored vectors or data frames.)
-lst &lt;- list(name = &quot;John&quot;, age = 25)
+# Set the first column as row names
+rownames(coad) = coad[,1]
+# Remove the first column as it is now used as row names
+coad = coad[,-1]  
+coad &lt;- as.data.frame(coad) 
 
-# Data Frames = tabular (2-dimensional) data structure that can store values of any data type.
-df &lt;- data.frame(Name = c(&quot;Alice&quot;, &quot;Bob&quot;), Age = c(25, 30))</code></pre>
-</div>
-<div id="functions-in-r" class="section level3">
-<h3>3. Functions in R</h3>
-<p>Understanding and creating functions is fundamental in R:</p>
+# Clean column names: replace dots with dashes &amp; convert to uppercase
+colnames(coad) = gsub(&quot;\\.&quot;, &quot;-&quot;, toupper(colnames(coad)))
+
+ # Transpose the dataframe so that rows become columns and vice versa
+coad = t(coad) </code></pre>
+<p><strong><em>Prepare miRNA-seq expression data:</em></strong></p>
+<pre class="r"><code># Read RNA-seq expression data:
+r = read.csv(&quot;data/COADREAD.rnaseqv2__illuminahiseq_rnaseqv2__unc_edu__Level_3__RSEM_genes_normalized__data.data.txt&quot;, sep = &quot;\t&quot;, check.names = FALSE, row.names = 1)
+
+# Remove the first row:
+r = r[-1,]
+
+# Convert expression data to numeric matrix format
+temp = matrix(as.numeric(as.matrix(r)), ncol=ncol(r))
+
+# Assign original column names to the matrix
+colnames(temp) = colnames(r)  
+# Assign original row names to the matrix
+rownames(temp) = rownames(r)  
+RNA = temp  
+
+# Transpose the matrix so that genes are rows and samples are columns
+RNA = t(RNA)  </code></pre>
+<p><strong><em>Extract patient and tissue information from column
+names:</em></strong></p>
+<pre class="r"><code>tcgaID = list()
+ # Extract sample ID
+tcgaID$sample.ID &lt;- substr(colnames(r), 1, 16)
+# Extract patient ID
+tcgaID$patient &lt;- substr(colnames(r), 1, 12)  
+# Extract tissue type
+tcgaID$tissue &lt;- substr(colnames(r), 14, 16)  
+
+tcgaID = as.data.frame(tcgaID)  </code></pre>
+<p><strong><em>Select Primary Solid Tumor tissue data
+(“01A”):</em></strong></p>
+<pre class="r"><code>tcgaID.sel = tcgaID[tcgaID$tissue == &quot;01A&quot;, ]
+
+# Subset the RNA expression data to match selected samples
+RNA.sel = RNA[tcgaID$tissue == &quot;01A&quot;, ]</code></pre>
+<p><strong><em>Intersect patient IDs between clinical and RNA
+data:</em></strong></p>
+<pre class="r"><code>sel = intersect(tcgaID.sel$patient, rownames(coad))
+# Subset the clinical data to include only selected patients:
+coad.sel = coad[sel, ]
+# Assign patient IDs as row names to the RNA data:
+rownames(RNA.sel) = tcgaID.sel$patient
+# Subset the RNA data to include only selected patients
+RNA.sel = RNA.sel[sel, ]</code></pre>
+<p><strong><em>Prepare labels for pathology stages:</em></strong></p>
 <ul>
-<li>Functions are reusable blocks of code that perform a specific
-task.</li>
+<li><p>Classify stages <code>t1</code>, <code>t2</code>, &amp;
+<code>t3</code> as “low”</p></li>
+<li><p>Classify stages <code>t4</code>, <code>t4a</code>, &amp;
+<code>t4b</code> as “high”</p></li>
+<li><p>Convert any <code>tis</code> stages to <code>NA</code></p></li>
 </ul>
-<p>Creating Simple Functions: Here’s how you can create a simple
-function in R.</p>
-<pre class="r"><code># Creating a Function
-add_numbers &lt;- function(a, b) {  
-  return(a + b)  # takes two arguments (a and b) and returns their sum.
-}
+<pre class="r"><code>labels = coad.sel[, &quot;pathology_T_stage&quot;]
 
-# Using the Function: Here we are calling the function &#39;add_numbers&#39; with 10 and 15 as inputs.
-add_numbers(10, 15)</code></pre>
-<pre><code>[1] 25</code></pre>
-</div>
-<div id="installing-and-loading-packages" class="section level3">
-<h3>4. Installing and loading Packages:</h3>
-<ul>
-<li><p>R packages are collections of functions and datasets developed by
-the R community:</p></li>
-<li><p>There are pre-loaded packages in Rstudio that can be used and
-called without installation (e.g., dplyr)</p></li>
-<li><p>CRAN: CRAN (Comprehensive R Archive Network) is the main
-repository for R packages.</p></li>
-</ul>
-<p>Installing and Loading Packages: To use additional functions, you
-might need to install and load packages.</p>
-<pre class="r"><code># Installing a Package (Uncomment the line below if the package has been loaded previously)
-#     install.packages(&quot;ggplot2&quot;)
+labels[labels %in% c(&quot;t1&quot;, &quot;t2&quot;, &quot;t3&quot;)] = &quot;low&quot;
 
-# Loading the package &quot;ggplot&quot; a data visualtion package we will use later in the course:
-library(ggplot2) # no quotations needed when loading a package from your library
-ggplot</code></pre>
-<pre><code>function (data = NULL, mapping = aes(), ..., environment = parent.frame()) 
-{
-    UseMethod(&quot;ggplot&quot;)
-}
-&lt;bytecode: 0x11f8ac080&gt;
-&lt;environment: namespace:ggplot2&gt;</code></pre>
-</div>
-<div id="importing-external-data" class="section level3">
-<h3>5. Importing External Data:</h3>
-<ul>
-<li><p>Data analysis often involves importing data from external
-files:</p></li>
-<li><p>R can read data from various formats like CSV, Excel,
-etc.</p></li>
-<li><p>It is important to pay attention to the extension the file uses
-(e.g., csv = comman seperated values)</p></li>
-</ul>
-<pre class="r"><code># Reading CSV Files:
-# df_csv &lt;- read.csv(&quot;path/to/your/file.csv&quot;)
+labels[labels %in% c(&quot;t4&quot;, &quot;t4a&quot;, &quot;t4b&quot;)] = &quot;high&quot;
 
-# Reading Excel Files (requires the readxl package)
-#   install.packages(&quot;readxl)
-#   library(readxl)
-# df_excel &lt;- read_excel(&quot;path/to/your/file.xlsx&quot;)</code></pre>
-<p><strong><em>TIP:</em></strong> If you look at the top left of Rstudio
-you can import the dataset manually using the “Import Dataset”
-option.</p>
-</div>
-<div id="indexing" class="section level3">
-<h3>6. Indexing:</h3>
-<ul>
-<li>I have stored a data frame (with example data not shown) named
-“df”</li>
-</ul>
-<pre class="r"><code>df &lt;- data.frame(city, abb, region, pop, total)
-head(df) # shows the first &#39;n&#39; rows</code></pre>
-<pre><code>           city abb  region      pop  total
-1         Cairo  CA   North 22183200 125700
-2      Kinshasa  KI Central 16315534  80500
-3         Lagos  LA Central 15387639  66900
-4        Luanda  LU   South  8952496  51700
-5 Dar es Salaam  DS   South  7404689  36400
-6      Khartoum  KH   North  6160327  45700</code></pre>
-<ul>
-<li>Indexing is the process of selecting elements using their indices
-(i.e., positions in the data format)</li>
-</ul>
-<p><em>Indexing ROWS and COLUMNS by POSITION:</em></p>
-<pre class="r"><code># Select 1st Row:
-first_row &lt;- df[1, ]  # Selects the entire first row
-
-# Select 2nd column:
-second_column &lt;- df[, 2]  # Selects the entire second column (&#39;abb&#39;)
-
-# Select the element in the 3rd row and 4th column:
-specific_element &lt;- df[3, 4]  # Selects the population (&#39;pop&#39;) of the third city (&#39;Lagos&#39;)</code></pre>
-<p><em>Indexing Using COLUMN Names:</em></p>
-<pre class="r"><code># Select the &#39;city&#39; column:
-city_column &lt;- df$city  # Selects the &#39;city&#39; column
-
-# Select the first row using column names:
-first_row_city_pop &lt;- df[1, c(&quot;city&quot;, &quot;pop&quot;)]  # Selects the &#39;city&#39; and &#39;pop&#39; columns for the first row
-
-# Logical Indexing:
-large_cities &lt;- df[df$pop &gt; 10000000, ]  # Returns all rows where &#39;pop&#39; is greater than 10 million</code></pre>
-<p><em>Indexing with <code>dplyr</code>:</em></p>
-<pre class="r"><code># Using dplyr you can perform similar operations with clearer syntax:
-library(dplyr)</code></pre>
+labels[labels == &quot;tis&quot;] = NA</code></pre>
+<p><strong><em>Log Transform the expression data for our selected gene
+<code>CXCL2</code>:</em></strong></p>
+<pre class="r"><code>CXCL2 &lt;- log(1 + RNA.sel[, &quot;CXCL2|2920&quot;])</code></pre>
+<p><strong><em>Boxplot to visualize the distribution of log transformed
+gene expression by pathology stage:</em></strong></p>
+<pre class="r"><code>boxplot(CXCL2 ~ labels, main = &quot;Expression of CXCL2 by Pathology Stage&quot;,
+        xlab = &quot;Pathology Stage&quot;,
+        ylab = &quot;Log Transformed Expression&quot;,
+        col = c(&quot;lightyellow&quot;, &quot;sandybrown&quot;)) </code></pre>
+<p><img src="figure/EXAMPLE.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><strong><em>Perform Wilcoxon rank-sum test to compare gene expression
+between “low” and “high” stages:</em></strong></p>
+<pre class="r"><code>CXCL2_W &lt;- wilcox.test(CXCL2 ~ labels)
+CXCL2_W</code></pre>
 <pre><code>
-Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:stats&#39;:
+    Wilcoxon rank sum test with continuity correction
 
-    filter, lag</code></pre>
-<pre><code>The following objects are masked from &#39;package:base&#39;:
+data:  CXCL2 by labels
+W = 5357, p-value = 0.0007265
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p><strong><em>Now, we log transform expression data for three other
+genes:</em></strong></p>
+<pre class="r"><code>CXCL3 &lt;- log(1 + RNA.sel[, &quot;CXCL3|2921&quot;])
+GPX2 &lt;- log(1 + RNA.sel[, &quot;GPX2|2877&quot;])
+LCN2 &lt;- log(1 + RNA.sel[, &quot;LCN2|3934&quot;])</code></pre>
+<p><strong><em>Visualize the log transformed gene expression by
+pathology stage for all four genes:</em></strong></p>
+<pre class="r"><code>par(mfrow = c(1, 4))
+ylim_range &lt;- c(2, 12)
 
-    intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code># Select specific columns
-selected_df &lt;- df %&gt;%
-  select(city, pop)  # Selects &#39;city&#39; and &#39;pop&#39; columns
+# CXCL2 boxplot:
+boxplot(CXCL2 ~ labels, main = &quot;CXCL2&quot;,
+        xlab = &quot;Pathology Stage&quot;,
+        ylab = &quot;Log Transformed Expression&quot;,
+        col = c(&quot;lightyellow&quot;, &quot;sandybrown&quot;),
+        ylim = ylim_range) 
 
-# Filter rows based on a condition
-filtered_df &lt;- df %&gt;%
-  filter(pop &gt; 10000000)  # Filters for cities with population greater than 10 million</code></pre>
-</div>
-<div id="data-manipulation-basics" class="section level3">
-<h3>7. Data Manipulation Basics</h3>
-<p>Basic data manipulation is key to preparing data for analysis.</p>
-<p><strong><em>Overview of Data Classes: Learn about data frames,
-matrices, and lists.</em></strong></p>
-<ul>
-<li><p>Data Frames: Rectangular tables with rows and columns, where
-columns can be of different types.</p></li>
-<li><p>Matrices: Rectangular tables with rows and columns, where all
-elements must be of the same type.</p></li>
-<li><p>Lists: Collections of elements that can be of different types,
-including other lists.</p></li>
-</ul>
-<pre class="r"><code># Creating a Data Frame
-df &lt;- data.frame(
-  city = c(&quot;Cairo&quot;, &quot;Kinshasa&quot;, &quot;Lagos&quot;, &quot;Luanda&quot;, &quot;Dar es Salaam&quot;),
-  population = c(22183200, 16315534, 15387639, 8952496, 7404689),
-  region = c(&quot;North&quot;, &quot;Central&quot;, &quot;Central&quot;, &quot;South&quot;, &quot;South&quot;)
+# GPX2 boxplot:
+boxplot(GPX2~ labels, 
+        main = &quot;GPX2&quot;,
+        xlab = &quot;Pathology Stage&quot;,
+        ylab = &quot;Log Transformed Expression&quot;,
+        col = c(&quot;lightblue&quot;, &quot;lightcoral&quot;),
+        ylim = ylim_range)  # Specify colors for each box
+
+# CXCL3 boxplot:
+boxplot(CXCL3 ~ labels, 
+        main = &quot;CXCL3&quot;,
+        xlab = &quot;Pathology Stage&quot;,
+        ylab = &quot;Log Transformed Expression&quot;,
+        col = c(&quot;lightgreen&quot;, &quot;lightgoldenrod&quot;),
+        ylim = ylim_range)  # Specify colors for each box
+
+# LCN2 boxplot:
+boxplot(LCN2 ~ labels, 
+        main = &quot;LCN2&quot;,
+        xlab = &quot;Pathology Stage&quot;,
+        ylab = &quot;Log Transformed Expression&quot;,
+        col = c(&quot;lightpink&quot;, &quot;lightsteelblue&quot;),
+        ylim = ylim_range)  # Specify colors for each box</code></pre>
+<p><img src="figure/EXAMPLE.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
+<p><strong><em>Perform Wilcoxon rank-sum test to compare gene expression
+between “low” and “high” stages for the three new
+genes:</em></strong></p>
+<pre class="r"><code># LCN2 Gene:
+LCN2_W &lt;- wilcox.test(LCN2~ labels)
+# CXCL3 Gene:
+CXCL3_W &lt;- wilcox.test(CXCL3 ~ labels)
+# GPX2 Gene:
+GPX2_W &lt;- wilcox.test(GPX2 ~ labels)</code></pre>
+<p><strong><em>Now lets compare their output from the Wilcoxon rank-sum
+test:</em></strong></p>
+<pre class="r"><code>results &lt;- data.frame(
+  Gene = c(&quot;LCN2&quot;, &quot;CXCL3&quot;, &quot;GPX2&quot;, &quot;CXCL2&quot;),
+  Test_Statistic = c(LCN2_W$statistic, CXCL3_W$statistic, GPX2_W$statistic, CXCL2_W$statistic),
+  P_Value = c(LCN2_W$p.value, CXCL3_W$p.value, GPX2_W$p.value, CXCL2_W$p.value),
+  stringsAsFactors = FALSE
 )
 
-# Creating a Matrix
-matrix_example &lt;- matrix(1:9, nrow = 3, byrow = TRUE)
-
-# Creating a List
-list_example &lt;- list(
-  numbers = 1:5,
-  text = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;),
-  data_frame = df
-)</code></pre>
+kable(results, digits = 4)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Gene</th>
+<th align="right">Test_Statistic</th>
+<th align="right">P_Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">LCN2</td>
+<td align="right">6916</td>
+<td align="right">0.2666</td>
+</tr>
+<tr class="even">
+<td align="left">CXCL3</td>
+<td align="right">5119</td>
+<td align="right">0.0002</td>
+</tr>
+<tr class="odd">
+<td align="left">GPX2</td>
+<td align="right">7083</td>
+<td align="right">0.3854</td>
+</tr>
+<tr class="even">
+<td align="left">CXCL2</td>
+<td align="right">5357</td>
+<td align="right">0.0007</td>
+</tr>
+</tbody>
+</table>
+<p><strong><em>Interpretation:</em></strong></p>
 <ul>
-<li>Subsetting Data: Extract subsets of data based on conditions.</li>
+<li><p>CXCL2 (0.0007) and CXCL3 (0.0002) showed significant differences
+in gene expression between high and low pathology stages, with p-values
+&lt; 0.05.</p></li>
+<li><p>This result suggests that these genes could be important in
+distinguishing between different stages of the disease and warrants
+further investigation into their roles and potential as biomarkers or
+therapeutic targets.</p></li>
 </ul>
-<pre class="r"><code># Extract cities with population greater than 10 million
-large_cities &lt;- df[df$population &gt; 10000000, ]
-
-# Extract cities in the &#39;South&#39; region
-south_cities &lt;- df[df$region == &quot;South&quot;, ]
-
-# Select Specific Columns
-city_population &lt;- df[, c(&quot;city&quot;, &quot;population&quot;)]</code></pre>
-<ul>
-<li>Basic Transformations: Perform simple data transformations such as
-adding new columns.</li>
-</ul>
-<pre class="r"><code># Add a New Column: City Area (dummy data)
-df$area &lt;- c(606, 851, 1171, 300, 400)  # Example areas in square kilometers
-
-# Modify Existing Column: Increase Population by 10%
-df$population &lt;- df$population * 1.10
-
-# Using dplyr for Data Manipulation:
-
-# Add a New Column: City Area
-df &lt;- df %&gt;%
-  mutate(area = c(606, 851, 1171, 300, 400))
-
-# Modify Existing Column: Increase Population by 10%
-df &lt;- df %&gt;%
-  mutate(population = population * 1.10)
-
-# Filter: Cities in the &#39;South&#39; Region
-south_cities_dplyr &lt;- df %&gt;%
-  filter(region == &quot;South&quot;)
-
-# Select Specific Columns
-city_population_dplyr &lt;- df %&gt;%
-  select(city, population)</code></pre>
-<p><span style="color:red;"><strong><em>Exercise:
-</em></strong>:<span></p>
-<p><span style="color:red;">a. Data Classes: Extract the population of
-the 3rd city from the df data frame.<span></p>
-<p><span style="color:red;">b. Subsetting Data -&gt; Extract the
-elements from matrix_example that are greater than 5.<span></p>
-<p><span style="color:red;">c. Basic Transformations: Add a new column
-area to df with values 500, 600, 700, 800, 900.<span></p>
-<details>
-<summary>
-Answer
-</summary>
-<pre class="r"><code># 7a:
-df[3, &quot;population&quot;]</code></pre>
-<pre><code>[1] 18619043</code></pre>
-<pre class="r"><code># 7b:
-matrix_example[matrix_example &gt; 5]</code></pre>
-<pre><code>[1] 7 8 6 9</code></pre>
-<pre class="r"><code># 7c:
-df$area &lt;- c(500, 600, 700, 800, 900)
-head(df)</code></pre>
-<pre><code>           city population  region area
-1         Cairo   26841672   North  500
-2      Kinshasa   19741796 Central  600
-3         Lagos   18619043 Central  700
-4        Luanda   10832520   South  800
-5 Dar es Salaam    8959674   South  900</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1002,22 +903,23 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] dplyr_1.1.4   ggplot2_3.5.1
+[1] knitr_1.48     KODAMA_3.1     umap_0.2.10.0  Rtsne_0.17     minerva_1.5.10
+[6] readxl_1.4.3  
 
 loaded via a namespace (and not attached):
- [1] gtable_0.3.5      jsonlite_1.8.8    compiler_4.4.1    promises_1.3.0   
- [5] tidyselect_1.2.1  Rcpp_1.0.13       stringr_1.5.1     git2r_0.33.0     
- [9] later_1.3.2       jquerylib_0.1.4   scales_1.3.0      yaml_2.3.10      
-[13] fastmap_1.2.0     R6_2.5.1          generics_0.1.3    workflowr_1.7.1  
-[17] knitr_1.48        tibble_3.2.1      munsell_0.5.1     rprojroot_2.0.4  
-[21] bslib_0.8.0       pillar_1.9.0      rlang_1.1.4       utf8_1.2.4       
-[25] cachem_1.1.0      stringi_1.8.4     httpuv_1.6.15     xfun_0.47        
-[29] fs_1.6.4          sass_0.4.9        cli_3.6.3         withr_3.0.1      
-[33] magrittr_2.0.3    digest_0.6.37     grid_4.4.1        rstudioapi_0.16.0
-[37] lifecycle_1.0.4   vctrs_0.6.5       evaluate_0.24.0   glue_1.7.0       
-[41] whisker_0.4.1     colorspace_2.1-1  fansi_1.0.6       rmarkdown_2.28   
-[45] tools_4.4.1       pkgconfig_2.0.3   htmltools_0.5.8.1</code></pre>
-</div>
+ [1] Matrix_1.7-0      jsonlite_1.8.8    highr_0.11        compiler_4.4.1   
+ [5] promises_1.3.0    Rcpp_1.0.13       stringr_1.5.1     git2r_0.33.0     
+ [9] parallel_4.4.1    later_1.3.2       jquerylib_0.1.4   png_0.1-8        
+[13] yaml_2.3.10       fastmap_1.2.0     reticulate_1.38.0 lattice_0.22-6   
+[17] R6_2.5.1          workflowr_1.7.1   tibble_3.2.1      openssl_2.2.1    
+[21] rprojroot_2.0.4   bslib_0.8.0       pillar_1.9.0      rlang_1.1.4      
+[25] utf8_1.2.4        cachem_1.1.0      stringi_1.8.4     httpuv_1.6.15    
+[29] xfun_0.47         fs_1.6.4          sass_0.4.9        cli_3.6.3        
+[33] magrittr_2.0.3    grid_4.4.1        digest_0.6.37     rstudioapi_0.16.0
+[37] askpass_1.2.0     lifecycle_1.0.4   vctrs_0.6.5       RSpectra_0.16-2  
+[41] evaluate_0.24.0   glue_1.7.0        whisker_0.4.1     cellranger_1.1.0 
+[45] fansi_1.0.6       rmarkdown_2.28    tools_4.4.1       pkgconfig_2.0.3  
+[49] htmltools_0.5.8.1</code></pre>
 </div>
 </div>
 

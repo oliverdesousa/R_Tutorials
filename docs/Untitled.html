@@ -13,7 +13,7 @@
 
 <meta name="date" content="2024-09-10" />
 
-<title>Module 1: Basics</title>
+<title>Module 3: Correlation</title>
 
 <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -395,7 +395,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Module 1: Basics</h1>
+<h1 class="title toc-ignore">Module 3: Correlation</h1>
 <h4 class="author">Stefano Cacciatore</h4>
 <h4 class="date">September 10, 2024</h4>
 
@@ -604,6 +604,7 @@ Untracked files:
 
 Unstaged changes:
     Modified:   .DS_Store
+    Modified:   analysis/.DS_Store
     Deleted:    myproject.zip
 
 </code></pre>
@@ -622,11 +623,11 @@ have uncommitted changes.
 
 <p>
 These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/Module_1_Basics.Rmd</code>) and
-HTML (<code>docs/Module_1_Basics.html</code>) files. If you’ve
-configured a remote Git repository (see <code>?wflow_git_remote</code>),
-click on the hyperlinks in the table below to view the files as they
-were in that past version.
+made to the R Markdown (<code>analysis/Untitled.Rmd</code>) and HTML
+(<code>docs/Untitled.html</code>) files. If you’ve configured a remote
+Git repository (see <code>?wflow_git_remote</code>), click on the
+hyperlinks in the table below to view the files as they were in that
+past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -655,33 +656,16 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/oliverdesousa/R_Tutorials/blob/b77ee0a848cc222d84e66c94b978ccd7afd85d16/analysis/Module_1_Basics.Rmd" target="_blank">b77ee0a</a>
+<a href="https://github.com/oliverdesousa/R_Tutorials/blob/5e763e569280fdcdc25e4ce571fef187a1e57d70/analysis/Untitled.Rmd" target="_blank">5e763e5</a>
 </td>
 <td>
 oliverdesousa
 </td>
 <td>
-2024-09-06
+2024-09-10
 </td>
 <td>
-Files
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/oliverdesousa/R_Tutorials/b77ee0a848cc222d84e66c94b978ccd7afd85d16/docs/Module_1_Basics.html" target="_blank">b77ee0a</a>
-</td>
-<td>
-oliverdesousa
-</td>
-<td>
-2024-09-06
-</td>
-<td>
-Files
+Start my new project
 </td>
 </tr>
 </tbody>
@@ -691,290 +675,215 @@ Files
 </div>
 </div>
 </div>
-<div id="basics-in-r" class="section level1">
-<h1>Basics in R</h1>
-<blockquote>
-<p><strong><em>Open RStudio and take a few minutes to explore each pane
-and its functionality.</em></strong></p>
-</blockquote>
-<div id="familiarize-with-the-rstudio-interface" class="section level3">
-<h3>1. Familiarize with the RStudio Interface</h3>
-<p>In this section, we’ll get to know the RStudio interface and
-understand its different components:</p>
-<ul>
-<li><p><strong>Layout</strong>: The RStudio interface consists of
-several panes that help you manage your workflow efficiently.</p></li>
-<li><p><strong>Panes</strong>: These include the Source Pane, Console,
-Environment/History Pane, and the Files/Plots/Packages/Help/Viewer
-Pane.</p></li>
-<li><p><strong>Console</strong>: The Console is where you can directly
-execute R commands.</p></li>
-<li><p><strong>Script Editor</strong>: The Script Editor is used for
-writing and editing scripts, which can be executed in parts or as a
-whole.</p></li>
-<li><p><strong>Environment</strong>: The Environment Pane shows all the
-objects (data, functions, etc.) that you’ve created during your
-session.</p></li>
-</ul>
+<div id="correlation" class="section level2">
+<h2><strong>5. Correlation:</strong></h2>
+<p>Correlation analysis is used to investigate the association between
+two or more variables.</p>
+<div id="step-1-choose-a-correlation-method" class="section level3">
+<h3>Step 1: Choose a Correlation Method</h3>
+<p><strong><em>Pearson Correlation</em></strong> measures the linear
+relationship between two continuous variables. It assumes both variables
+follow a normal distribution.</p>
+<p><strong><em>Spearman and Kendall Correlation</em></strong> are
+non-parametric and measure the strength and direction of the association
+between two ranked variables.</p>
 </div>
-<div id="basic-r-operations" class="section level3">
-<h3>2. Basic R Operations</h3>
-<p><em>Let’s start by performing some basic operations in R:</em></p>
-<p><strong>Arithmetic:</strong></p>
+<div id="step-2-preliminary-checks" class="section level3">
+<h3>Step 2: Preliminary Checks</h3>
+<p>Before applying Pearson’s correlation, check the assumptions:</p>
+<ol style="list-style-type: lower-roman">
+<li>Normality Check –&gt; Use the Shapiro-Wilk test to assess if the
+variables are normally distributed.</li>
+</ol>
 <ul>
-<li>addition, subtraction, multiplication, division etc.</li>
+<li><p>Null hypothesis: the data = normally distributed</p></li>
+<li><p>Alternative hypothesis: the data = not normally
+distributed</p></li>
+<li><p>If the p-value is less than 0.05, the null hypothesis is
+rejected</p></li>
 </ul>
-<pre class="r"><code># Basic Arithmetic
-sum &lt;- 5 + 3 
-difference &lt;- 5 - 3
-product &lt;- 5 * 3
-quotient &lt;- 5 / 3
-exponent &lt;- 5 ^ 3
-modulus &lt;- 5 %% 3 # Remainder from division
-int_division &lt;-5 %/% 3 # Integer Division</code></pre>
-<p><strong>Variable Assignment:</strong></p>
-<ul>
-<li>You can assign values to variables for reuse.</li>
-</ul>
-<pre class="r"><code># Variable Assignment
-x &lt;- 10 
-y &lt;- 20
-z &lt;- x + y # x &amp; y are now saved in your environment for reuse</code></pre>
-<p><strong>Data Types:</strong> - Numeric, Character, Boolean, Integer,
-and Double</p>
-<pre class="r"><code># 6 = numeric
-# &quot;c&quot; = character
-# -5 = integer
-# TRUE = boolean</code></pre>
-<p><strong>Data Formats:</strong></p>
-<ul>
-<li><p>vectors,</p></li>
-<li><p>lists,</p></li>
-<li><p>data frames</p></li>
-</ul>
-<pre class="r"><code># Vectors = arrays of data elements each of the SAME TYPE.
-vec &lt;- c(1, 2, 3, 4, 5)
-
-# Lists = can contain many items that (can have different types of data like numbers characters and also could contain stored vectors or data frames.)
-lst &lt;- list(name = &quot;John&quot;, age = 25)
-
-# Data Frames = tabular (2-dimensional) data structure that can store values of any data type.
-df &lt;- data.frame(Name = c(&quot;Alice&quot;, &quot;Bob&quot;), Age = c(25, 30))</code></pre>
-</div>
-<div id="functions-in-r" class="section level3">
-<h3>3. Functions in R</h3>
-<p>Understanding and creating functions is fundamental in R:</p>
-<ul>
-<li>Functions are reusable blocks of code that perform a specific
-task.</li>
-</ul>
-<p>Creating Simple Functions: Here’s how you can create a simple
-function in R.</p>
-<pre class="r"><code># Creating a Function
-add_numbers &lt;- function(a, b) {  
-  return(a + b)  # takes two arguments (a and b) and returns their sum.
-}
-
-# Using the Function: Here we are calling the function &#39;add_numbers&#39; with 10 and 15 as inputs.
-add_numbers(10, 15)</code></pre>
-<pre><code>[1] 25</code></pre>
-</div>
-<div id="installing-and-loading-packages" class="section level3">
-<h3>4. Installing and loading Packages:</h3>
-<ul>
-<li><p>R packages are collections of functions and datasets developed by
-the R community:</p></li>
-<li><p>There are pre-loaded packages in Rstudio that can be used and
-called without installation (e.g., dplyr)</p></li>
-<li><p>CRAN: CRAN (Comprehensive R Archive Network) is the main
-repository for R packages.</p></li>
-</ul>
-<p>Installing and Loading Packages: To use additional functions, you
-might need to install and load packages.</p>
-<pre class="r"><code># Installing a Package (Uncomment the line below if the package has been loaded previously)
-#     install.packages(&quot;ggplot2&quot;)
-
-# Loading the package &quot;ggplot&quot; a data visualtion package we will use later in the course:
-library(ggplot2) # no quotations needed when loading a package from your library
-ggplot</code></pre>
-<pre><code>function (data = NULL, mapping = aes(), ..., environment = parent.frame()) 
-{
-    UseMethod(&quot;ggplot&quot;)
-}
-&lt;bytecode: 0x11f8ac080&gt;
-&lt;environment: namespace:ggplot2&gt;</code></pre>
-</div>
-<div id="importing-external-data" class="section level3">
-<h3>5. Importing External Data:</h3>
-<ul>
-<li><p>Data analysis often involves importing data from external
-files:</p></li>
-<li><p>R can read data from various formats like CSV, Excel,
-etc.</p></li>
-<li><p>It is important to pay attention to the extension the file uses
-(e.g., csv = comman seperated values)</p></li>
-</ul>
-<pre class="r"><code># Reading CSV Files:
-# df_csv &lt;- read.csv(&quot;path/to/your/file.csv&quot;)
-
-# Reading Excel Files (requires the readxl package)
-#   install.packages(&quot;readxl)
-#   library(readxl)
-# df_excel &lt;- read_excel(&quot;path/to/your/file.xlsx&quot;)</code></pre>
-<p><strong><em>TIP:</em></strong> If you look at the top left of Rstudio
-you can import the dataset manually using the “Import Dataset”
-option.</p>
-</div>
-<div id="indexing" class="section level3">
-<h3>6. Indexing:</h3>
-<ul>
-<li>I have stored a data frame (with example data not shown) named
-“df”</li>
-</ul>
-<pre class="r"><code>df &lt;- data.frame(city, abb, region, pop, total)
-head(df) # shows the first &#39;n&#39; rows</code></pre>
-<pre><code>           city abb  region      pop  total
-1         Cairo  CA   North 22183200 125700
-2      Kinshasa  KI Central 16315534  80500
-3         Lagos  LA Central 15387639  66900
-4        Luanda  LU   South  8952496  51700
-5 Dar es Salaam  DS   South  7404689  36400
-6      Khartoum  KH   North  6160327  45700</code></pre>
-<ul>
-<li>Indexing is the process of selecting elements using their indices
-(i.e., positions in the data format)</li>
-</ul>
-<p><em>Indexing ROWS and COLUMNS by POSITION:</em></p>
-<pre class="r"><code># Select 1st Row:
-first_row &lt;- df[1, ]  # Selects the entire first row
-
-# Select 2nd column:
-second_column &lt;- df[, 2]  # Selects the entire second column (&#39;abb&#39;)
-
-# Select the element in the 3rd row and 4th column:
-specific_element &lt;- df[3, 4]  # Selects the population (&#39;pop&#39;) of the third city (&#39;Lagos&#39;)</code></pre>
-<p><em>Indexing Using COLUMN Names:</em></p>
-<pre class="r"><code># Select the &#39;city&#39; column:
-city_column &lt;- df$city  # Selects the &#39;city&#39; column
-
-# Select the first row using column names:
-first_row_city_pop &lt;- df[1, c(&quot;city&quot;, &quot;pop&quot;)]  # Selects the &#39;city&#39; and &#39;pop&#39; columns for the first row
-
-# Logical Indexing:
-large_cities &lt;- df[df$pop &gt; 10000000, ]  # Returns all rows where &#39;pop&#39; is greater than 10 million</code></pre>
-<p><em>Indexing with <code>dplyr</code>:</em></p>
-<pre class="r"><code># Using dplyr you can perform similar operations with clearer syntax:
-library(dplyr)</code></pre>
+<pre class="r"><code># Shapiro-Wilk test for normality
+shapiro.test(mtcars$mpg)</code></pre>
 <pre><code>
-Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:stats&#39;:
+    Shapiro-Wilk normality test
 
-    filter, lag</code></pre>
-<pre><code>The following objects are masked from &#39;package:base&#39;:
+data:  mtcars$mpg
+W = 0.94756, p-value = 0.1229</code></pre>
+<pre class="r"><code>shapiro.test(mtcars$wt)</code></pre>
+<pre><code>
+    Shapiro-Wilk normality test
 
-    intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code># Select specific columns
-selected_df &lt;- df %&gt;%
-  select(city, pop)  # Selects &#39;city&#39; and &#39;pop&#39; columns
-
-# Filter rows based on a condition
-filtered_df &lt;- df %&gt;%
-  filter(pop &gt; 10000000)  # Filters for cities with population greater than 10 million</code></pre>
-</div>
-<div id="data-manipulation-basics" class="section level3">
-<h3>7. Data Manipulation Basics</h3>
-<p>Basic data manipulation is key to preparing data for analysis.</p>
-<p><strong><em>Overview of Data Classes: Learn about data frames,
-matrices, and lists.</em></strong></p>
-<ul>
-<li><p>Data Frames: Rectangular tables with rows and columns, where
-columns can be of different types.</p></li>
-<li><p>Matrices: Rectangular tables with rows and columns, where all
-elements must be of the same type.</p></li>
-<li><p>Lists: Collections of elements that can be of different types,
-including other lists.</p></li>
-</ul>
-<pre class="r"><code># Creating a Data Frame
-df &lt;- data.frame(
-  city = c(&quot;Cairo&quot;, &quot;Kinshasa&quot;, &quot;Lagos&quot;, &quot;Luanda&quot;, &quot;Dar es Salaam&quot;),
-  population = c(22183200, 16315534, 15387639, 8952496, 7404689),
-  region = c(&quot;North&quot;, &quot;Central&quot;, &quot;Central&quot;, &quot;South&quot;, &quot;South&quot;)
-)
-
-# Creating a Matrix
-matrix_example &lt;- matrix(1:9, nrow = 3, byrow = TRUE)
-
-# Creating a List
-list_example &lt;- list(
-  numbers = 1:5,
-  text = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;),
-  data_frame = df
-)</code></pre>
-<ul>
-<li>Subsetting Data: Extract subsets of data based on conditions.</li>
-</ul>
-<pre class="r"><code># Extract cities with population greater than 10 million
-large_cities &lt;- df[df$population &gt; 10000000, ]
-
-# Extract cities in the &#39;South&#39; region
-south_cities &lt;- df[df$region == &quot;South&quot;, ]
-
-# Select Specific Columns
-city_population &lt;- df[, c(&quot;city&quot;, &quot;population&quot;)]</code></pre>
-<ul>
-<li>Basic Transformations: Perform simple data transformations such as
-adding new columns.</li>
-</ul>
-<pre class="r"><code># Add a New Column: City Area (dummy data)
-df$area &lt;- c(606, 851, 1171, 300, 400)  # Example areas in square kilometers
-
-# Modify Existing Column: Increase Population by 10%
-df$population &lt;- df$population * 1.10
-
-# Using dplyr for Data Manipulation:
-
-# Add a New Column: City Area
-df &lt;- df %&gt;%
-  mutate(area = c(606, 851, 1171, 300, 400))
-
-# Modify Existing Column: Increase Population by 10%
-df &lt;- df %&gt;%
-  mutate(population = population * 1.10)
-
-# Filter: Cities in the &#39;South&#39; Region
-south_cities_dplyr &lt;- df %&gt;%
-  filter(region == &quot;South&quot;)
-
-# Select Specific Columns
-city_population_dplyr &lt;- df %&gt;%
-  select(city, population)</code></pre>
-<p><span style="color:red;"><strong><em>Exercise:
-</em></strong>:<span></p>
-<p><span style="color:red;">a. Data Classes: Extract the population of
-the 3rd city from the df data frame.<span></p>
-<p><span style="color:red;">b. Subsetting Data -&gt; Extract the
-elements from matrix_example that are greater than 5.<span></p>
-<p><span style="color:red;">c. Basic Transformations: Add a new column
-area to df with values 500, 600, 700, 800, 900.<span></p>
+data:  mtcars$wt
+W = 0.94326, p-value = 0.09265</code></pre>
 <details>
 <summary>
-Answer
+<em>Does from data of each of the 2 variables (mpg, wt) follow a normal
+distribution?</em>:
 </summary>
-<pre class="r"><code># 7a:
-df[3, &quot;population&quot;]</code></pre>
-<pre><code>[1] 18619043</code></pre>
-<pre class="r"><code># 7b:
-matrix_example[matrix_example &gt; 5]</code></pre>
-<pre><code>[1] 7 8 6 9</code></pre>
-<pre class="r"><code># 7c:
-df$area &lt;- c(500, 600, 700, 800, 900)
-head(df)</code></pre>
-<pre><code>           city population  region area
-1         Cairo   26841672   North  500
-2      Kinshasa   19741796 Central  600
-3         Lagos   18619043 Central  700
-4        Luanda   10832520   South  800
-5 Dar es Salaam    8959674   South  900</code></pre>
+<p><code>mpg</code>: The p-value is 0.1229, which is greater than 0.05.
+Therefore, we do not reject the null hypothesis. This suggests that the
+mpg variable does not significantly deviate from a normal
+distribution.</p>
+<p><code>wt</code>: The p-value is 0.09265, which is also greater than
+0.05. Thus, we do not reject the null hypothesis. This indicates that
+the wt variable does not significantly deviate from a normal
+distribution.</p>
+<div id="section" class="section level6">
+<h6></h6>
+<ol start="2" style="list-style-type: lower-roman">
+<li>Visualize Normality –&gt; Use Q-Q plots to visually inspect
+normality.</li>
+</ol>
+<pre class="r"><code>library(ggpubr)</code></pre>
+<pre><code>Loading required package: ggplot2</code></pre>
+<pre class="r"><code>par(mfrow=c(1,2))
+ggqqplot(mtcars$mpg, ylab = &quot;MPG&quot;)</code></pre>
+<p><img src="figure/Untitled.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggqqplot(mtcars$wt, ylab = &quot;Weight&quot;)</code></pre>
+<p><img src="figure/Untitled.Rmd/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /></p>
+<details>
+<summary>
+<em>Is the covariation linear?</em>:
+</summary>
+<p>Yes, form the plot above, the relationship is linear.</p>
+</div>
+<div id="section-1" class="section level6">
+<h6></h6>
+</div>
+</div>
+<div id="step-3-calculate-correlation" class="section level3">
+<h3>Step 3: Calculate Correlation</h3>
+<ol style="list-style-type: lower-roman">
+<li>Pearson Correlation</li>
+</ol>
+<pre class="r"><code># Pearson correlation test
+pearson_res &lt;- cor.test(mtcars$mpg, mtcars$wt, method = &quot;pearson&quot;)
+pearson_res</code></pre>
+<pre><code>
+    Pearson&#39;s product-moment correlation
+
+data:  mtcars$mpg and mtcars$wt
+t = -9.559, df = 30, p-value = 1.294e-10
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.9338264 -0.7440872
+sample estimates:
+       cor 
+-0.8676594 </code></pre>
+<ol start="2" style="list-style-type: lower-roman">
+<li>Spearman and Kendall Correlation</li>
+</ol>
+<pre class="r"><code># Spearman correlation test
+spearman_res &lt;- cor.test(mtcars$mpg, mtcars$wt, method = &quot;spearman&quot;)</code></pre>
+<pre><code>Warning in cor.test.default(mtcars$mpg, mtcars$wt, method = &quot;spearman&quot;): Cannot
+compute exact p-value with ties</code></pre>
+<pre class="r"><code>spearman_res</code></pre>
+<pre><code>
+    Spearman&#39;s rank correlation rho
+
+data:  mtcars$mpg and mtcars$wt
+S = 10292, p-value = 1.488e-11
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+-0.886422 </code></pre>
+<pre class="r"><code># Kendall correlation test
+kendall_res &lt;- cor.test(mtcars$mpg, mtcars$wt, method = &quot;kendall&quot;)</code></pre>
+<pre><code>Warning in cor.test.default(mtcars$mpg, mtcars$wt, method = &quot;kendall&quot;): Cannot
+compute exact p-value with ties</code></pre>
+<pre class="r"><code>kendall_res</code></pre>
+<pre><code>
+    Kendall&#39;s rank correlation tau
+
+data:  mtcars$mpg and mtcars$wt
+z = -5.7981, p-value = 6.706e-09
+alternative hypothesis: true tau is not equal to 0
+sample estimates:
+       tau 
+-0.7278321 </code></pre>
+</div>
+<div id="step-4-visualize-the-correlation" class="section level3">
+<h3>Step 4: Visualize the Correlation</h3>
+<pre class="r"><code># Scatter plot with Pearson correlation
+ggscatter(mtcars, x = &quot;mpg&quot;, y = &quot;wt&quot;, 
+          add = &quot;reg.line&quot;, conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = &quot;pearson&quot;,
+          xlab = &quot;Miles per Gallon&quot;, ylab = &quot;Weight (1000 lbs)&quot;)</code></pre>
+<p><img src="figure/Untitled.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="step-5-interpretation" class="section level3">
+<h3>Step 5: Interpretation</h3>
+<p><strong>Correlation Coefficient:</strong></p>
+<ul>
+<li><p><code>-1</code>: Strong negative correlation (as one variable
+increases, the other decreases).</p></li>
+<li><p><code>0</code>: No correlation.</p></li>
+<li><p><code>1</code>: Strong positive correlation (both variables
+increase together).</p></li>
+</ul>
+<p><strong>P-Value:</strong></p>
+<ul>
+<li><code>p-value &lt; 0.05</code> indicates a statistically significant
+correlation.</li>
+</ul>
+<p><span
+style="color:red;"><strong><em>Exercise:</em></strong></span></p>
+<p>Perform a correlation analysis using the <code>mpg</code> and
+<code>qsec</code> variables from the <code>mtcars</code> to investigate
+the extent of correlation between the two variables.</p>
+<p>Use a method of your choosing.</p>
+<p>Provide and interpretation of the correlation coefficient and its
+p-value.</p>
+<details>
+<summary>
+<em>Example interpretation</em>:
+</summary>
+<p>The Pearson correlation coefficient is -0.8677, which points to a
+strong negative linear relationship between the variables.</p>
+<p>The p-value is significantly low (p &lt; 0.001), indicating that the
+correlation is statistically significant.</p>
+<p>The 95% confidence interval suggests that the true correlation lies
+between -0.9338 and -0.7441.</p>
+</div>
+<div id="compute-correlation-matrix-in-r" class="section level3">
+<h3>Compute correlation matrix in R</h3>
+<p>The R function cor() can be used to compute a correlation matrix.</p>
+<pre class="r"><code># We start by loading the mtcars dataset and selecting a subset of columns for our analysis.
+data(&quot;mtcars&quot;)
+my_data &lt;- mtcars[, c(1, 3, 4, 5, 6, 7)]
+# Display first few rows
+head(my_data)</code></pre>
+<pre><code>                   mpg disp  hp drat    wt  qsec
+Mazda RX4         21.0  160 110 3.90 2.620 16.46
+Mazda RX4 Wag     21.0  160 110 3.90 2.875 17.02
+Datsun 710        22.8  108  93 3.85 2.320 18.61
+Hornet 4 Drive    21.4  258 110 3.08 3.215 19.44
+Hornet Sportabout 18.7  360 175 3.15 3.440 17.02
+Valiant           18.1  225 105 2.76 3.460 20.22</code></pre>
+<div id="we-then-compute-the-correlation-matrix" class="section level4">
+<h4>We then compute the correlation matrix:</h4>
+<pre class="r"><code>rescm &lt;- cor(my_data)
+# Round the results to 2 decimal places for easier interpretation
+round(rescm, 2)</code></pre>
+<pre><code>       mpg  disp    hp  drat    wt  qsec
+mpg   1.00 -0.85 -0.78  0.68 -0.87  0.42
+disp -0.85  1.00  0.79 -0.71  0.89 -0.43
+hp   -0.78  0.79  1.00 -0.45  0.66 -0.71
+drat  0.68 -0.71 -0.45  1.00 -0.71  0.09
+wt   -0.87  0.89  0.66 -0.71  1.00 -0.17
+qsec  0.42 -0.43 -0.71  0.09 -0.17  1.00</code></pre>
+<p><em>Interpretation:</em> - Values close to 1 or -1 indicate strong
+positive or negative correlations, respectively.</p>
+<ul>
+<li>Values close to 0 suggest little to no linear relationship.</li>
+</ul>
+</div>
+<div id="visualising-the-correlation-matrix" class="section level4">
+<h4>Visualising the Correlation Matrix:</h4>
+<pre class="r"><code>library(corrplot)</code></pre>
+<pre><code>corrplot 0.94 loaded</code></pre>
+<pre class="r"><code>corrplot(rescm,tl.col = &quot;black&quot;, addCoef.col = &quot;black&quot;)</code></pre>
+<p><img src="figure/Untitled.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1002,21 +911,27 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] dplyr_1.1.4   ggplot2_3.5.1
+[1] corrplot_0.94 ggpubr_0.6.0  ggplot2_3.5.1
 
 loaded via a namespace (and not attached):
- [1] gtable_0.3.5      jsonlite_1.8.8    compiler_4.4.1    promises_1.3.0   
- [5] tidyselect_1.2.1  Rcpp_1.0.13       stringr_1.5.1     git2r_0.33.0     
- [9] later_1.3.2       jquerylib_0.1.4   scales_1.3.0      yaml_2.3.10      
-[13] fastmap_1.2.0     R6_2.5.1          generics_0.1.3    workflowr_1.7.1  
-[17] knitr_1.48        tibble_3.2.1      munsell_0.5.1     rprojroot_2.0.4  
-[21] bslib_0.8.0       pillar_1.9.0      rlang_1.1.4       utf8_1.2.4       
-[25] cachem_1.1.0      stringi_1.8.4     httpuv_1.6.15     xfun_0.47        
-[29] fs_1.6.4          sass_0.4.9        cli_3.6.3         withr_3.0.1      
-[33] magrittr_2.0.3    digest_0.6.37     grid_4.4.1        rstudioapi_0.16.0
-[37] lifecycle_1.0.4   vctrs_0.6.5       evaluate_0.24.0   glue_1.7.0       
-[41] whisker_0.4.1     colorspace_2.1-1  fansi_1.0.6       rmarkdown_2.28   
-[45] tools_4.4.1       pkgconfig_2.0.3   htmltools_0.5.8.1</code></pre>
+ [1] sass_0.4.9        utf8_1.2.4        generics_0.1.3    tidyr_1.3.1      
+ [5] rstatix_0.7.2     lattice_0.22-6    stringi_1.8.4     digest_0.6.37    
+ [9] magrittr_2.0.3    evaluate_0.24.0   grid_4.4.1        fastmap_1.2.0    
+[13] Matrix_1.7-0      rprojroot_2.0.4   workflowr_1.7.1   jsonlite_1.8.8   
+[17] whisker_0.4.1     backports_1.5.0   promises_1.3.0    mgcv_1.9-1       
+[21] purrr_1.0.2       fansi_1.0.6       scales_1.3.0      jquerylib_0.1.4  
+[25] abind_1.4-5       cli_3.6.3         rlang_1.1.4       splines_4.4.1    
+[29] munsell_0.5.1     withr_3.0.1       cachem_1.1.0      yaml_2.3.10      
+[33] tools_4.4.1       ggsignif_0.6.4    dplyr_1.1.4       colorspace_2.1-1 
+[37] httpuv_1.6.15     broom_1.0.6       vctrs_0.6.5       R6_2.5.1         
+[41] lifecycle_1.0.4   git2r_0.33.0      stringr_1.5.1     car_3.1-2        
+[45] fs_1.6.4          pkgconfig_2.0.3   pillar_1.9.0      bslib_0.8.0      
+[49] later_1.3.2       gtable_0.3.5      glue_1.7.0        Rcpp_1.0.13      
+[53] highr_0.11        xfun_0.47         tibble_3.2.1      tidyselect_1.2.1 
+[57] rstudioapi_0.16.0 knitr_1.48        farver_2.1.2      nlme_3.1-166     
+[61] htmltools_0.5.8.1 labeling_0.4.3    carData_3.0-5     rmarkdown_2.28   
+[65] compiler_4.4.1   </code></pre>
+</div>
 </div>
 </div>
 </div>
